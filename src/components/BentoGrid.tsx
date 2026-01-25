@@ -76,10 +76,10 @@ const BentoGrid = () => {
 
   return (
     <section className="relative z-20 w-full bg-gradient-to-b from-[#581c87] via-[#3b0764] to-[#240a4a] overflow-hidden">
-      {/* Ambient background effects */}
-      <div className="absolute top-0 right-0 w-[600px] h-[500px] bg-fuchsia-400/10 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[400px] bg-purple-400/8 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-violet-400/6 rounded-full blur-[120px] pointer-events-none" />
+      {/* Ambient background effects - Hidden on mobile for performance */}
+      <div className="hidden sm:block absolute top-0 right-0 w-[600px] h-[500px] bg-fuchsia-400/10 rounded-full blur-[180px] pointer-events-none" />
+      <div className="hidden sm:block absolute bottom-0 left-1/4 w-[500px] h-[400px] bg-purple-400/8 rounded-full blur-[150px] pointer-events-none" />
+      <div className="hidden sm:block absolute top-1/2 left-0 w-[400px] h-[400px] bg-violet-400/6 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto py-24 px-6">
         {/* Header Section */}
@@ -124,13 +124,9 @@ const BentoGrid = () => {
               variants={itemVariants}
               className={`group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
                 feature.isAI
-                  ? "bg-white/5 border-2 border-purple-500/50 shadow-[0_0_40px_rgba(147,51,234,0.3),inset_0_0_60px_rgba(147,51,234,0.1)] hover:shadow-[0_0_60px_rgba(147,51,234,0.5),inset_0_0_80px_rgba(147,51,234,0.15)]"
-                  : "bg-white/5 border border-white/10 hover:bg-white/10"
-              }`}
-              style={{
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
+                  ? "bg-purple-900/60 sm:bg-white/5 border-2 border-purple-500/50 shadow-[0_0_40px_rgba(147,51,234,0.3),inset_0_0_60px_rgba(147,51,234,0.1)] hover:shadow-[0_0_60px_rgba(147,51,234,0.5),inset_0_0_80px_rgba(147,51,234,0.15)]"
+                  : "bg-purple-900/60 sm:bg-white/5 border border-white/10 hover:bg-white/10"
+              } sm:backdrop-blur-xl`}
             >
               {/* Pulsating border effect for AI card */}
               {feature.isAI && (
@@ -146,6 +142,7 @@ const BentoGrid = () => {
                   src={feature.image}
                   alt={feature.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Gradient overlay for smooth transition to text */}

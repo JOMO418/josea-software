@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import {
   Menu,
   X,
@@ -255,15 +255,18 @@ export default function Navbar() {
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const scrolledRef = useRef(false);
 
-  // Track scroll for subtle shadow enhancement
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Track scroll for subtle shadow enhancement using framer-motion's optimized scroll handling
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const shouldBeScrolled = latest > 10;
+    // Only update state if the value actually changes to prevent unnecessary re-renders
+    if (shouldBeScrolled !== scrolledRef.current) {
+      scrolledRef.current = shouldBeScrolled;
+      setScrolled(shouldBeScrolled);
+    }
+  });
 
   return (
     <>

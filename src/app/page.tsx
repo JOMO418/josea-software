@@ -1,14 +1,17 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TrustedBy from "@/components/TrustedBy";
-import ProblemSection from "@/components/ProblemSection";
-import BentoGrid from "@/components/BentoGrid";
-import PricingSection from "@/components/PricingSection";
-import DigitalPricingSection from "@/components/DigitalPricingSection";
-import HowWeWorkSection from "@/components/HowWeWorkSection";
-import FAQSection from "@/components/FAQSection";
-import FinalCTASection from "@/components/FinalCTASection";
-import Footer from "@/components/Footer";
+
+// Dynamic imports for below-the-fold components to reduce initial bundle size
+const TrustedBy = dynamic(() => import("@/components/TrustedBy"));
+const ProblemSection = dynamic(() => import("@/components/ProblemSection"));
+const BentoGrid = dynamic(() => import("@/components/BentoGrid"));
+const PricingSection = dynamic(() => import("@/components/PricingSection"));
+const DigitalPricingSection = dynamic(() => import("@/components/DigitalPricingSection"));
+const HowWeWorkSection = dynamic(() => import("@/components/HowWeWorkSection"));
+const FAQSection = dynamic(() => import("@/components/FAQSection"));
+const FinalCTASection = dynamic(() => import("@/components/FinalCTASection"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (

@@ -88,11 +88,11 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden bg-surface-ground">
-      {/* ===== THE SPOTLIGHT (Heavenly Light Effect) ===== */}
-      <div className="absolute top-[-20%] left-0 right-0 h-[500px] bg-gradient-to-b from-purple-500/20 to-transparent blur-[100px] pointer-events-none" />
+      {/* ===== THE SPOTLIGHT (Heavenly Light Effect) - Hidden on mobile for performance ===== */}
+      <div className="hidden sm:block absolute top-[-20%] left-0 right-0 h-[500px] bg-gradient-to-b from-purple-500/20 to-transparent blur-[100px] pointer-events-none" />
 
-      {/* ===== THE MESH (Moving Mesh Gradient Pattern) ===== */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* ===== THE MESH (Moving Mesh Gradient Pattern) - Hidden on mobile for performance ===== */}
+      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute inset-0 opacity-30 animate-mesh"
           style={{
@@ -108,8 +108,8 @@ const Hero = () => {
         />
       </div>
 
-      {/* ===== ANIMATED BACKGROUND BLOBS ===== */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* ===== ANIMATED BACKGROUND BLOBS - Hidden on mobile for performance ===== */}
+      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
           style={{
@@ -237,6 +237,7 @@ const Hero = () => {
             alt="Josea Software running synchronized across desktop, laptop, tablet, phone, and mobile POS."
             width={1200}
             height={800}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
             className="w-full h-auto rounded-2xl shadow-2xl border border-white/40 backdrop-blur-xl"
             style={{ transform: "rotateX(10deg)" }}
             priority
