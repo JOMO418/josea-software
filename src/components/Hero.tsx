@@ -123,7 +123,7 @@ const Hero = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut" as const,
           }}
         />
         <motion.div
@@ -139,7 +139,7 @@ const Hero = () => {
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut" as const,
           }}
         />
         <motion.div
@@ -154,7 +154,7 @@ const Hero = () => {
           transition={{
             duration: 15,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeInOut" as const,
           }}
         />
       </div>
@@ -251,7 +251,7 @@ const Hero = () => {
             transition={{
               duration: 3,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
             }}
           >
             {/* Green Circle with Pulse Animation */}

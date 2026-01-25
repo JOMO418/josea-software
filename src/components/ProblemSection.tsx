@@ -27,7 +27,7 @@ const ProblemSection = () => {
         duration: 0.3,
         repeat: Infinity,
         repeatType: "loop" as const,
-        ease: "linear",
+        ease: "linear" as const,
         times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
       },
     },
@@ -40,7 +40,7 @@ const ProblemSection = () => {
       transition: {
         duration: 0.2,
         repeat: Infinity,
-        ease: "linear",
+        ease: "linear" as const,
         times: [0, 0.25, 0.5, 0.75, 1],
       },
     },
@@ -55,7 +55,7 @@ const ProblemSection = () => {
             duration: 3,
             repeat: Infinity,
             delay,
-            ease: "linear",
+            ease: "linear" as const,
             times: [0, 0.25, 0.5, 0.75, 1],
           },
         }
@@ -130,7 +130,7 @@ const ProblemSection = () => {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
         >
           {/* Badge */}
           <motion.div

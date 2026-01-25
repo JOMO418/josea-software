@@ -302,7 +302,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 8, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] as const }}
                       className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
                     >
                       <div className="relative bg-white/95 backdrop-blur-xl shadow-2xl shadow-purple-900/15 border border-white/60 rounded-2xl p-8 grid grid-cols-2 gap-10 w-[580px]">
@@ -473,7 +473,7 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
               className="fixed top-24 left-4 right-4 z-50 lg:hidden"
             >
               <div className="bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl shadow-2xl shadow-purple-900/15 overflow-hidden">
@@ -503,7 +503,7 @@ export default function Navbar() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
                           className="overflow-hidden"
                         >
                           <div className="pt-2 pb-4 space-y-6">
