@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 
 // Dynamic imports for below-the-fold components to reduce initial bundle size
-const TrustedBy = dynamic(() => import("@/components/TrustedBy"));
+const ProductBillboard = dynamic(() => import("@/components/ProductBillboard"));
 const ProblemSection = dynamic(() => import("@/components/ProblemSection"));
 const BentoGrid = dynamic(() => import("@/components/BentoGrid"));
 const PricingSection = dynamic(() => import("@/components/PricingSection"));
@@ -18,7 +18,7 @@ export default function Home() {
     <main className="min-h-screen bg-surface-ground">
       <Navbar />
       <Hero />
-      <TrustedBy />
+      <ProductBillboard />
 
       {/* ============================================
           PARALLAX SLIDE CONTAINER

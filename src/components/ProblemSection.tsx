@@ -69,28 +69,32 @@ const ProblemSection = () => {
       iconColor: "text-slate-400",
       iconBg: "bg-slate-500/20",
       title: "The Scalability Ceiling",
-      desc: "Your current tools worked for starting out, but they are breaking under the weight of expansion. Basic systems lack the architecture to manage multiple branches, effectively putting a hard cap on how fast you can grow.",
+      shortDesc: "Basic tools can't handle multi-branch growth.",
+      desc: "Your tools worked for starting out, but break under expansion. Basic systems lack the architecture for multiple branches, capping your growth potential.",
     },
     {
       icon: Banknote,
       iconColor: "text-red-400",
       iconBg: "bg-red-500/20",
       title: "The Legacy Capital Drain",
-      desc: "Enterprise-grade software is powerful, but legacy providers demand massive upfront cash. This drains your working capital, forcing you to sacrifice liquidity today just to access the tools you need for tomorrow.",
+      shortDesc: "Enterprise software demands massive upfront cash.",
+      desc: "Legacy providers demand huge upfront costs, draining your working capital and forcing you to sacrifice liquidity for tomorrow's tools.",
     },
     {
       icon: UserCog,
       iconColor: "text-orange-400",
       iconBg: "bg-orange-500/20",
       title: "The 'Manual Work' Bottleneck",
-      desc: "Your staff are hired to build relationships, not to type. Manual data entry consumes hours of productive time, turning valuable employees into data clerks and diverting their focus away from your customers.",
+      shortDesc: "Staff waste hours on data entry instead of customers.",
+      desc: "Manual data entry consumes hours of productive time, turning valuable employees into data clerks instead of relationship builders.",
     },
     {
       icon: FileStack,
       iconColor: "text-purple-400",
       iconBg: "bg-purple-500/20",
       title: "The Paperwork Anchor",
-      desc: "Modern businesses cannot scale on pen and paper. Relying on physical books for tax returns and sales reports creates a mountain of administrative chaos, leading to lost data and zero visibility into your actual performance.",
+      shortDesc: "Pen-and-paper chaos kills visibility.",
+      desc: "Physical books for tax returns and reports create administrative chaos—lost data, zero visibility into actual performance.",
     },
   ];
 
@@ -189,14 +193,19 @@ const ProblemSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
               >
-                <div className={`flex-shrink-0 p-2 rounded-lg ${pain.iconBg}`}>
+                <div className={`flex-shrink-0 p-1.5 md:p-2 rounded-lg ${pain.iconBg}`}>
                   <pain.icon className={`w-4 h-4 ${pain.iconColor}`} />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-base font-bold text-white mb-0 sm:mb-1">
+                  <h3 className="text-base md:text-lg font-bold text-white mb-0.5 md:mb-1">
                     {pain.title}
                   </h3>
-                  <p className="hidden sm:block text-sm text-slate-400 leading-snug">
+                  {/* Mobile: brief description */}
+                  <p className="md:hidden text-sm text-slate-300 leading-snug">
+                    {pain.shortDesc}
+                  </p>
+                  {/* Desktop: refined description */}
+                  <p className="hidden md:block text-sm text-slate-400 leading-snug">
                     {pain.desc}
                   </p>
                 </div>
