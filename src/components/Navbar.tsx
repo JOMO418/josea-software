@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import {
   Menu,
@@ -9,6 +10,7 @@ import {
   ChevronDown,
   Cpu,
   Globe,
+  Building2,
   ArrowRight,
 } from "lucide-react";
 
@@ -194,57 +196,53 @@ function MobileMenuLogo() {
   );
 }
 
-const productsMenu = {
-  operations: {
-    title: "JOSEA OPERATIONS",
-    description: "Enterprise-grade business management",
+// ============================================
+// THE THREE GRAND GATEWAYS - Enterprise Suite Navigation
+// ============================================
+const suiteGateways = [
+  {
+    id: "operations",
+    title: "Josea Operations",
+    subtitle: "The Brain",
+    tagline: "Command your business",
+    description: "Enterprise-grade ERP, Inventory Management & Point of Sale systems engineered for African businesses ready to scale.",
+    mobileDesc: "ERP, Inventory & POS systems.",
     icon: Cpu,
-    color: "purple",
-    items: [
-      {
-        name: "Retail Lite",
-        description: "Perfect for small businesses",
-        href: "/products/retail-lite",
-      },
-      {
-        name: "Retail Pro",
-        description: "Advanced inventory & analytics",
-        href: "/products/retail-pro",
-      },
-      {
-        name: "Enterprise OS",
-        description: "Full-scale business operations",
-        href: "/products/enterprise-os",
-      },
-    ],
+    href: "/suites/operations",
+    iconGradient: "from-violet-500 to-purple-600",
+    textAccent: "text-violet-600",
+    hoverBg: "hover:bg-violet-50/50",
   },
-  digital: {
-    title: "JOSEA DIGITAL",
-    description: "Web presence & growth solutions",
+  {
+    id: "digital",
+    title: "Josea Digital",
+    subtitle: "The Face",
+    tagline: "Own your presence",
+    description: "Premium web experiences, e-commerce platforms & growth marketing strategies that convert visitors into loyal customers.",
+    mobileDesc: "Web, E-commerce & Marketing.",
     icon: Globe,
-    color: "indigo",
-    items: [
-      {
-        name: "Business Sites",
-        description: "Professional web presence",
-        href: "/products/business-sites",
-      },
-      {
-        name: "E-Commerce",
-        description: "Online store solutions",
-        href: "/products/e-commerce",
-      },
-      {
-        name: "Growth",
-        description: "SEO & digital marketing",
-        href: "/products/growth",
-      },
-    ],
+    href: "/suites/digital",
+    iconGradient: "from-blue-500 to-indigo-600",
+    textAccent: "text-blue-600",
+    hoverBg: "hover:bg-blue-50/50",
   },
-};
+  {
+    id: "industries",
+    title: "Industries",
+    subtitle: "The Context",
+    tagline: "Built for your sector",
+    description: "We architect enterprise-level systems tailored for a vast range of industries — from Education & Healthcare to Retail, Logistics & beyond.",
+    mobileDesc: "Enterprise systems for all sectors.",
+    icon: Building2,
+    href: "/industries",
+    iconGradient: "from-amber-500 to-orange-600",
+    textAccent: "text-amber-600",
+    hoverBg: "hover:bg-amber-50/50",
+  },
+];
 
 const navLinks = [
-  { name: "Pricing", href: "/pricing" },
+  { name: "Pricing", href: "/#pricing" },
   { name: "How it Works", href: "/how-it-works" },
   { name: "Success Stories", href: "/success-stories" },
   { name: "About Us", href: "/about" },
@@ -256,6 +254,8 @@ export default function Navbar() {
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const scrolledRef = useRef(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   // Track scroll for subtle shadow enhancement using framer-motion's optimized scroll handling
   const { scrollY } = useScroll();
@@ -298,92 +298,101 @@ export default function Navbar() {
                   />
                 </button>
 
-                {/* Mega Menu Dropdown */}
+                {/* ============================================
+                    SPACIOUS PREMIUM MEGA MENU - Desktop
+                    ============================================ */}
                 <AnimatePresence>
                   {productsOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] as const }}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                       className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
                     >
-                      <div className="relative bg-white/95 backdrop-blur-xl shadow-2xl shadow-purple-900/15 border border-white/60 rounded-2xl p-8 grid grid-cols-2 gap-10 w-[580px]">
-                        {/* Decorative gradient orb */}
-                        <div className="absolute -top-px left-1/2 -translate-x-1/2 w-24 h-1 bg-brand-gradient rounded-full" />
+                      <div className="relative w-[780px] bg-white rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] border border-slate-200/60 overflow-hidden">
+                        {/* Top gradient accent */}
+                        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-violet-500 via-blue-500 to-amber-500" />
 
-                        {/* Operations Column */}
-                        <div className="space-y-5">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2.5 bg-purple-100 rounded-xl">
-                              <Cpu className="w-5 h-5 text-purple-600" />
-                            </div>
-                            <div>
-                              <h3 className="font-bold text-sm text-purple-600 tracking-wide">
-                                {productsMenu.operations.title}
-                              </h3>
-                              <p className="text-xs text-slate-400">
-                                {productsMenu.operations.description}
-                              </p>
-                            </div>
-                          </div>
-                          <ul className="space-y-1">
-                            {productsMenu.operations.items.map((item) => (
-                              <li key={item.name}>
-                                <Link
-                                  href={item.href}
-                                  className="group flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50/80 transition-all duration-200"
+                        {/* Three Column Grid */}
+                        <div className="p-3">
+                          <div className="grid grid-cols-3 gap-2">
+                            {suiteGateways.map((gateway, index) => (
+                              <Link
+                                key={gateway.id}
+                                href={gateway.href}
+                                className="group relative"
+                              >
+                                <motion.div
+                                  initial={{ opacity: 0, y: 16 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{
+                                    delay: index * 0.06,
+                                    duration: 0.35,
+                                    ease: [0.23, 1, 0.32, 1]
+                                  }}
+                                  className={`relative flex flex-col h-full p-5 rounded-xl bg-white border border-slate-100 ${gateway.hoverBg} hover:border-slate-200 hover:shadow-lg hover:shadow-slate-900/5 transition-all duration-300`}
                                 >
-                                  <div className="flex-1">
-                                    <span className="block text-sm font-semibold text-slate-800 group-hover:text-purple-700 transition-colors">
-                                      {item.name}
-                                    </span>
-                                    <span className="text-xs text-slate-400">
-                                      {item.description}
-                                    </span>
+                                  {/* Icon */}
+                                  <div className="relative mb-4">
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gateway.iconGradient} flex items-center justify-center shadow-lg shadow-slate-900/10 group-hover:scale-105 group-hover:shadow-xl transition-all duration-300`}>
+                                      <gateway.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
+                                    </div>
                                   </div>
-                                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all" />
-                                </Link>
-                              </li>
+
+                                  {/* Subtitle */}
+                                  <span className={`text-[0.65rem] font-semibold tracking-[0.12em] uppercase ${gateway.textAccent} mb-1`}>
+                                    {gateway.subtitle}
+                                  </span>
+
+                                  {/* Title */}
+                                  <h3
+                                    className="text-lg font-bold text-slate-900 mb-1.5 tracking-tight"
+                                    style={{ fontFamily: "'Georgia', 'Palatino Linotype', serif" }}
+                                  >
+                                    {gateway.title}
+                                  </h3>
+
+                                  {/* Tagline */}
+                                  <p className="text-sm font-medium text-slate-700 mb-2">
+                                    {gateway.tagline}
+                                  </p>
+
+                                  {/* Description */}
+                                  <p className="text-[0.8rem] text-slate-500 leading-relaxed flex-1">
+                                    {gateway.description}
+                                  </p>
+
+                                  {/* CTA */}
+                                  <div className="flex items-center gap-1.5 mt-4 pt-4 border-t border-slate-100 group-hover:border-slate-200 transition-colors">
+                                    <span className={`text-sm font-semibold ${gateway.textAccent}`}>
+                                      Explore
+                                    </span>
+                                    <ArrowRight className={`w-4 h-4 ${gateway.textAccent} opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300`} />
+                                  </div>
+                                </motion.div>
+                              </Link>
                             ))}
-                          </ul>
+                          </div>
                         </div>
 
-                        {/* Digital Column */}
-                        <div className="space-y-5">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2.5 bg-indigo-100 rounded-xl">
-                              <Globe className="w-5 h-5 text-indigo-600" />
+                        {/* Footer */}
+                        <div className="px-5 py-4 bg-slate-50/80 border-t border-slate-100">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                              <span className="text-sm text-slate-600">
+                                Trusted by <span className="font-semibold text-slate-800">500+</span> African businesses
+                              </span>
                             </div>
-                            <div>
-                              <h3 className="font-bold text-sm text-indigo-600 tracking-wide">
-                                {productsMenu.digital.title}
-                              </h3>
-                              <p className="text-xs text-slate-400">
-                                {productsMenu.digital.description}
-                              </p>
-                            </div>
+                            <Link
+                              href="/get-started"
+                              className="group/cta flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg hover:from-violet-700 hover:to-indigo-700 shadow-md shadow-violet-500/20 hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-200"
+                            >
+                              Schedule a Consultation
+                              <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-0.5 transition-transform" />
+                            </Link>
                           </div>
-                          <ul className="space-y-1">
-                            {productsMenu.digital.items.map((item) => (
-                              <li key={item.name}>
-                                <Link
-                                  href={item.href}
-                                  className="group flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50/80 transition-all duration-200"
-                                >
-                                  <div className="flex-1">
-                                    <span className="block text-sm font-semibold text-slate-800 group-hover:text-indigo-700 transition-colors">
-                                      {item.name}
-                                    </span>
-                                    <span className="text-xs text-slate-400">
-                                      {item.description}
-                                    </span>
-                                  </div>
-                                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
                         </div>
                       </div>
                     </motion.div>
@@ -392,6 +401,14 @@ export default function Navbar() {
               </div>
 
               {/* Other Nav Links */}
+              {!isHomePage && (
+                <Link
+                  href="/"
+                  className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white/60 transition-all duration-200"
+                >
+                  Home
+                </Link>
+              )}
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -486,15 +503,17 @@ export default function Navbar() {
                     <MobileMenuLogo />
                   </div>
 
-                  {/* Products Accordion */}
-                  <div className="pb-2">
+                  {/* ============================================
+                      MOBILE: Compact Products Menu
+                      ============================================ */}
+                  <div className="pb-1">
                     <button
                       onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                      className="flex items-center justify-between w-full px-4 py-3 text-base font-semibold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors"
+                      className="flex items-center justify-between w-full px-4 py-2.5 text-base font-semibold text-slate-700 hover:bg-slate-50 rounded-lg transition-colors"
                     >
                       Products
                       <ChevronDown
-                        className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${
+                        className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
                           mobileProductsOpen ? "rotate-180" : ""
                         }`}
                       />
@@ -506,60 +525,49 @@ export default function Navbar() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] as const }}
+                          transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="pt-2 pb-4 space-y-6">
-                            {/* Operations */}
-                            <div className="px-4">
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="p-2 bg-purple-100 rounded-lg">
-                                  <Cpu className="w-4 h-4 text-purple-600" />
+                          <div className="py-1 px-1">
+                            {suiteGateways.map((gateway) => (
+                              <Link
+                                key={gateway.id}
+                                href={gateway.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="flex items-center gap-3 px-3 py-2.5 rounded-lg active:bg-slate-50 transition-colors"
+                              >
+                                <div className={`flex-shrink-0 w-9 h-9 rounded-lg bg-gradient-to-br ${gateway.iconGradient} flex items-center justify-center shadow-sm`}>
+                                  <gateway.icon className="w-4 h-4 text-white" strokeWidth={2} />
                                 </div>
-                                <span className="text-xs font-bold text-purple-600 tracking-wide uppercase">
-                                  {productsMenu.operations.title}
-                                </span>
-                              </div>
-                              <ul className="space-y-1 pl-2">
-                                {productsMenu.operations.items.map((item) => (
-                                  <li key={item.name}>
-                                    <Link
-                                      href={item.href}
-                                      onClick={() => setMobileMenuOpen(false)}
-                                      className="flex items-center justify-between px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all"
-                                    >
-                                      {item.name}
-                                      <ArrowRight className="w-4 h-4 text-slate-300" />
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
 
-                            {/* Digital */}
-                            <div className="px-4">
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="p-2 bg-indigo-100 rounded-lg">
-                                  <Globe className="w-4 h-4 text-indigo-600" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <h3 className="text-sm font-semibold text-slate-900">
+                                      {gateway.title}
+                                    </h3>
+                                    <span className={`text-[0.55rem] font-medium uppercase ${gateway.textAccent} opacity-60`}>
+                                      {gateway.subtitle}
+                                    </span>
+                                  </div>
+                                  <p className="text-xs text-slate-500">
+                                    {gateway.mobileDesc}
+                                  </p>
                                 </div>
-                                <span className="text-xs font-bold text-indigo-600 tracking-wide uppercase">
-                                  {productsMenu.digital.title}
-                                </span>
-                              </div>
-                              <ul className="space-y-1 pl-2">
-                                {productsMenu.digital.items.map((item) => (
-                                  <li key={item.name}>
-                                    <Link
-                                      href={item.href}
-                                      onClick={() => setMobileMenuOpen(false)}
-                                      className="flex items-center justify-between px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all"
-                                    >
-                                      {item.name}
-                                      <ArrowRight className="w-4 h-4 text-slate-300" />
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
+
+                                <ArrowRight className="w-4 h-4 text-slate-300" />
+                              </Link>
+                            ))}
+
+                            {/* Compact CTA */}
+                            <div className="mt-2 pt-2 border-t border-slate-100">
+                              <Link
+                                href="/get-started"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="flex items-center justify-center gap-1.5 w-full py-2 text-xs font-semibold text-violet-600"
+                              >
+                                Schedule a Consultation
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
                             </div>
                           </div>
                         </motion.div>
@@ -571,6 +579,15 @@ export default function Navbar() {
                   <div className="h-px bg-slate-100" />
 
                   {/* Other Links */}
+                  {!isHomePage && (
+                    <Link
+                      href="/"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-3 text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-all"
+                    >
+                      Home
+                    </Link>
+                  )}
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
