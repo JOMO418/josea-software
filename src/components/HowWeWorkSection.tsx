@@ -1,28 +1,37 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, Variants, useInView } from "framer-motion";
 import { Handshake, Code2, Rocket, ShieldCheck, LucideIcon } from "lucide-react";
 
 // Animation Variants for Desktop Sequential Timeline
 const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+  hidden: {
+    opacity: 0,
+    transition: { duration: 0 },
+  },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.4,
-      delayChildren: 0.2,
+      staggerChildren: 0.25,
+      delayChildren: 0.1,
     },
   },
 };
 
 const stepVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  hidden: {
+    opacity: 0,
+    y: 20,
+    scale: 0.95,
+    transition: { duration: 0 },
+  },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.35,
       ease: "easeOut",
     },
   },
@@ -33,12 +42,13 @@ const connectorVariants: Variants = {
     scaleX: 0,
     originX: 0,
     backgroundColor: "#e9d5ff",
+    transition: { duration: 0 },
   },
   visible: {
     scaleX: 1,
     backgroundColor: "#9333ea",
     transition: {
-      duration: 0.6,
+      duration: 0.4,
       ease: "easeInOut",
     },
   },
@@ -86,35 +96,34 @@ const steps: Step[] = [
 function MobileStepNode({
   step,
   index,
+  isInView,
 }: {
   step: Step;
   index: number;
+  isInView: boolean;
 }) {
   const Icon = step.icon;
 
   return (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.8 }}
-      transition={{ duration: 0.4, delay: 0.2 }}
+      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
+      transition={isInView ? { duration: 0.25, delay: 0.1 } : { duration: 0 }}
       className="relative z-10 flex-shrink-0"
     >
       {/* Outer glow ring */}
       <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.8 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={isInView ? { duration: 0.3, delay: 0.15 } : { duration: 0 }}
         className="absolute inset-0 rounded-full bg-purple-500/20 blur-xl scale-150"
       />
 
       {/* Main node circle */}
       <motion.div
-        initial={{ backgroundColor: "rgb(226 232 240)" }}
-        whileInView={{ backgroundColor: "rgb(147 51 234)" }}
-        viewport={{ once: true, amount: 0.8 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        animate={isInView
+          ? { backgroundColor: "rgb(147 51 234)" }
+          : { backgroundColor: "rgb(226 232 240)" }
+        }
+        transition={isInView ? { duration: 0.25, delay: 0.1 } : { duration: 0 }}
         className="relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg"
       >
         {/* Step number badge */}
@@ -124,10 +133,11 @@ function MobileStepNode({
 
         {/* Icon */}
         <motion.div
-          initial={{ color: "rgb(100 116 139)" }}
-          whileInView={{ color: "rgb(255 255 255)" }}
-          viewport={{ once: true, amount: 0.8 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          animate={isInView
+            ? { color: "rgb(255 255 255)" }
+            : { color: "rgb(100 116 139)" }
+          }
+          transition={isInView ? { duration: 0.25, delay: 0.1 } : { duration: 0 }}
         >
           <Icon className="w-7 h-7" />
         </motion.div>
@@ -166,13 +176,11 @@ function DesktopStepNode({
 }
 
 // Mobile Step Content Component
-function MobileStepContent({ step }: { step: Step }) {
+function MobileStepContent({ step, isInView }: { step: Step; isInView: boolean }) {
   return (
     <motion.div
-      initial={{ x: 20, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      viewport={{ once: true, amount: 0.5 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      animate={isInView ? { x: 0, opacity: 1 } : { x: 20, opacity: 0 }}
+      transition={isInView ? { duration: 0.25, delay: 0.15 } : { duration: 0 }}
       className="flex-1"
     >
       <h3 className="text-lg font-bold text-slate-900 mb-2">
@@ -200,14 +208,12 @@ function DesktopStepContent({ step }: { step: Step }) {
 }
 
 // Vertical Connector Line (Mobile)
-function VerticalConnector() {
+function VerticalConnector({ isInView }: { isInView: boolean }) {
   return (
     <div className="flex justify-start pl-[30px]">
       <motion.div
-        initial={{ scaleY: 0 }}
-        whileInView={{ scaleY: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+        transition={isInView ? { duration: 0.3, ease: "easeOut" } : { duration: 0 }}
         className="w-0.5 h-16 bg-gradient-to-b from-purple-600 to-purple-400 origin-top"
       />
     </div>
@@ -216,18 +222,24 @@ function VerticalConnector() {
 
 // Mobile Step Layout
 function MobileStep({ step, index, isLast }: { step: Step; index: number; isLast: boolean }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { amount: 0.5 });
+
   return (
-    <>
+    <div ref={ref}>
       <div className="flex items-start gap-6">
-        <MobileStepNode step={step} index={index} />
-        <MobileStepContent step={step} />
+        <MobileStepNode step={step} index={index} isInView={isInView} />
+        <MobileStepContent step={step} isInView={isInView} />
       </div>
-      {!isLast && <VerticalConnector />}
-    </>
+      {!isLast && <VerticalConnector isInView={isInView} />}
+    </div>
   );
 }
 
 export default function HowWeWorkSection() {
+  const desktopRef = useRef(null);
+  const isDesktopInView = useInView(desktopRef, { amount: 0.3 });
+
   return (
     <section className="bg-slate-50 pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -262,10 +274,10 @@ export default function HowWeWorkSection() {
 
         {/* Desktop Timeline (Horizontal) - Sequential Animation */}
         <motion.div
-          variants={containerVariants}
+          ref={desktopRef}
+          animate={isDesktopInView ? "visible" : "hidden"}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
           className="hidden lg:flex flex-row items-start justify-between relative"
         >
           {steps.map((step, index) => (
