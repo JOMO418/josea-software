@@ -9,15 +9,17 @@ import {
   MessageCircle,
 } from "lucide-react";
 
+// Typewriter messages - defined outside component to avoid recreating on each render
+const TYPEWRITER_MESSAGES = ["Book a Demo...", "Chat on WhatsApp..."];
+
 const Hero = () => {
   // Typewriter effect state
-  const messages = ["Book a Demo...", "Chat on WhatsApp..."];
   const [messageIndex, setMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
-    const currentMessage = messages[messageIndex];
+    const currentMessage = TYPEWRITER_MESSAGES[messageIndex];
 
     if (isTyping) {
       if (displayedText.length < currentMessage.length) {
@@ -40,11 +42,11 @@ const Hero = () => {
         return () => clearTimeout(timeout);
       } else {
         // Finished deleting, move to next message
-        setMessageIndex((prev) => (prev + 1) % messages.length);
+        setMessageIndex((prev) => (prev + 1) % TYPEWRITER_MESSAGES.length);
         setIsTyping(true);
       }
     }
-  }, [displayedText, isTyping, messageIndex, messages]);
+  }, [displayedText, isTyping, messageIndex]);
 
   // Animation variants
   const containerVariants = {

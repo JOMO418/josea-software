@@ -24,20 +24,26 @@ export default function FloatingWhatsAppCTA() {
 
   // Fast, attention-grabbing animation cycle
   useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+    let collapseTimeoutId: NodeJS.Timeout | null = null;
+
     const runCycle = () => {
       setIsExpanded(true);
-      setTimeout(() => setIsExpanded(false), 3000); // 3s open
+      collapseTimeoutId = setTimeout(() => setIsExpanded(false), 3000); // 3s open
     };
 
     // Start quickly - 1.5s after page load
     const initialDelay = setTimeout(() => {
       runCycle();
       // Repeat every 8 seconds for urgency
-      const interval = setInterval(runCycle, 8000);
-      return () => clearInterval(interval);
+      intervalId = setInterval(runCycle, 8000);
     }, 1500);
 
-    return () => clearTimeout(initialDelay);
+    return () => {
+      clearTimeout(initialDelay);
+      if (intervalId) clearInterval(intervalId);
+      if (collapseTimeoutId) clearTimeout(collapseTimeoutId);
+    };
   }, []);
 
   return (

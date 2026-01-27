@@ -87,7 +87,25 @@ import {
   Banknote,
   CreditCard,
   QrCode,
+  FileSpreadsheet,
+  Scale,
+  ClipboardList,
+  UserCheck,
+  FileClock,
+  Scan,
+  FolderLock,
+  ShieldCheck,
+  BadgePercent,
+  Gauge,
+  SlidersHorizontal,
+  Infinity as InfinityIcon,
 } from "lucide-react";
+
+// ============================================================================
+// ENTERPRISE COLOR PALETTE
+// Gold: #D4AF37 (primary), #F4E4B2 (light), #B8962E (dark)
+// Used inline in JSX for Tailwind arbitrary values
+// ============================================================================
 import { use } from "react";
 import Navbar from "@/components/Navbar";
 
@@ -247,84 +265,15 @@ const productsData: Record<string, ProductData> = {
     mode: "blueprint",
     category: "operations",
     title: "Enterprise OS",
-    tagline: "Custom Software. Built for Scale.",
+    tagline: "Your Vision. Our Engineering.",
     description:
-      "We design and build custom software solutions for government institutions, corporate organizations, and large enterprises. From internal management systems to public-facing platforms—engineered to your exact specifications with enterprise-grade security.",
+      "When off-the-shelf software cannot meet your operational complexity, we architect and build bespoke systems from the ground up. Enterprise OS delivers custom workflow engines, real-time analytics, and seamless integrations—all secured with bank-grade encryption and backed by 99.99% uptime SLA.",
     price: "Custom Quote",
     priceSubtext: "Scope-based pricing • Free consultation",
     badge: "ENTERPRISE",
     features: [
-      // SCALE & INFRASTRUCTURE
-      { text: "Unlimited Branches & Locations", icon: Globe, highlight: true },
-      { text: "Unlimited User Licenses", icon: Users, highlight: true },
-      { text: "Unlimited Transaction Volume", icon: Activity, highlight: true },
-      { text: "Dedicated Cloud Infrastructure", icon: Cloud, highlight: true },
-      { text: "On-Premise Deployment Option", icon: Server },
-      { text: "Multi-Region Data Centers", icon: Database },
-      { text: "Auto-Scaling Architecture", icon: Layers },
-      { text: "Load Balancing & Redundancy", icon: GitBranch },
-
-      // AI & ANALYTICS
-      { text: "Full Josea AI Suite", icon: Cpu, highlight: true },
-      { text: "Predictive Demand Forecasting", icon: TrendingUp },
-      { text: "Real-Time BI Dashboards", icon: LayoutDashboard },
-      { text: "Custom Report Builder", icon: FileCheck },
-      { text: "Machine Learning Models", icon: LineChart },
-      { text: "Anomaly Detection System", icon: Eye },
-
-      // SECURITY & COMPLIANCE
-      { text: "Bank-Grade Encryption (AES-256)", icon: Lock, highlight: true },
-      { text: "SOC 2 Type II Compliance", icon: Shield },
-      { text: "GDPR & Data Protection", icon: Fingerprint },
-      { text: "Role-Based Access Control", icon: Key },
-      { text: "Audit Trail & Logging", icon: ScrollText },
-      { text: "Two-Factor Authentication", icon: Smartphone },
-      { text: "IP Whitelisting", icon: Wifi },
-      { text: "Penetration Testing", icon: Target },
-
-      // INTEGRATION & API
-      { text: "RESTful API Access", icon: Network, highlight: true },
-      { text: "ERP Integration (SAP, Oracle)", icon: Boxes },
-      { text: "CRM Connectors (Salesforce)", icon: Users },
-      { text: "Payment Gateway APIs", icon: CreditCard },
-      { text: "Webhook Automation", icon: Workflow },
-      { text: "Custom Integration Development", icon: Settings },
-      { text: "SSO & LDAP/Active Directory", icon: Key },
-      { text: "Real-Time Data Sync", icon: RefreshCw },
-
-      // OPERATIONS & WORKFLOW
-      { text: "Custom Workflow Engine", icon: Workflow },
-      { text: "Approval Hierarchies", icon: GitBranch },
-      { text: "Multi-Company Consolidation", icon: Building2 },
-      { text: "Inter-Branch Transfers", icon: FolderSync },
-      { text: "Automated Reordering", icon: RefreshCw },
-      { text: "Supplier Portal Access", icon: Truck },
-      { text: "Customer Self-Service Portal", icon: Globe },
-      { text: "Mobile App (iOS & Android)", icon: Smartphone },
-
-      // SUPPORT & SLA
-      { text: "24/7/365 Priority Support", icon: Headphones, highlight: true },
-      { text: "Dedicated Account Manager", icon: Award },
-      { text: "99.99% Uptime SLA", icon: Activity },
-      { text: "4-Hour Response Time", icon: Timer },
-      { text: "Quarterly Strategy Sessions", icon: Calendar },
-      { text: "On-Site Training Programs", icon: BookOpen },
-      { text: "Custom Documentation", icon: FileText },
-      { text: "Executive Business Reviews", icon: PieChart },
-
-      // DISASTER RECOVERY
-      { text: "Automated Backups (Hourly)", icon: HardDrive },
-      { text: "Point-in-Time Recovery", icon: RefreshCw },
-      { text: "Geo-Redundant Storage", icon: Globe },
-      { text: "Disaster Recovery Plan", icon: Shield },
-      { text: "Business Continuity Support", icon: Activity },
-
-      // CUSTOMIZATION
-      { text: "White-Label Branding", icon: Palette },
-      { text: "Custom Module Development", icon: Boxes },
-      { text: "Bespoke Feature Requests", icon: Sparkles },
-      { text: "Priority Feature Roadmap", icon: Rocket },
-      { text: "Dedicated Engineering Team", icon: Cpu },
+      // Placeholder - Enterprise features are defined in the grouped structure below
+      { text: "Unlimited Everything", icon: Globe, highlight: true },
     ],
     ctaText: "Schedule Executive Briefing",
     secondaryCtaText: "Speak to Solutions Architect",
@@ -506,256 +455,175 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: { duration: 0.4, ease: "easeOut" as const },
   },
 };
 
 // ============================================================================
-// ENTERPRISE HERO - ADVANCED NEURAL NETWORK VISUALIZATION
+// ENTERPRISE HERO - EXECUTIVE DASHBOARD PREVIEW
 // ============================================================================
-function EnterpriseNeuralNetwork() {
-  const [activeNode, setActiveNode] = useState(0);
+function EnterpriseDashboardPreview() {
+  const [activeMetric, setActiveMetric] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveNode((prev) => (prev + 1) % 6);
-    }, 2000);
+      setActiveMetric((prev) => (prev + 1) % 4);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  // Core nodes
-  const coreNodes = [
-    { id: 0, x: 50, y: 50, icon: Cpu, label: "Core AI", size: "xl" },
+  const metrics = [
+    { label: "Uptime", value: "99.99%", icon: Activity, color: "#D4AF37", isGold: true },
+    { label: "Response", value: "<4hrs", icon: Timer, color: "#8B5CF6", isGold: false },
+    { label: "Encrypted", value: "AES-256", icon: Lock, color: "#D4AF37", isGold: true },
+    { label: "Compliance", value: "SOC 2", icon: Shield, color: "#D4AF37", isGold: true },
   ];
 
-  // Orbital nodes
-  const orbitalNodes = [
-    { id: 1, x: 50, y: 15, icon: Shield, label: "Security" },
-    { id: 2, x: 85, y: 35, icon: Database, label: "Data" },
-    { id: 3, x: 85, y: 65, icon: Network, label: "Network" },
-    { id: 4, x: 50, y: 85, icon: Activity, label: "Analytics" },
-    { id: 5, x: 15, y: 65, icon: Cloud, label: "Cloud" },
-    { id: 6, x: 15, y: 35, icon: Lock, label: "Encrypt" },
-  ];
-
-  // Outer satellite nodes
-  const satelliteNodes = [
-    { x: 50, y: 2, icon: Globe },
-    { x: 92, y: 25, icon: Server },
-    { x: 98, y: 50, icon: HardDrive },
-    { x: 92, y: 75, icon: Workflow },
-    { x: 50, y: 98, icon: BarChart3 },
-    { x: 8, y: 75, icon: Users },
-    { x: 2, y: 50, icon: Key },
-    { x: 8, y: 25, icon: Eye },
+  const capabilities = [
+    { icon: Globe, label: "Unlimited Scale", gold: true },
+    { icon: Cpu, label: "AI Analytics", gold: false },
+    { icon: Network, label: "API Access", gold: false },
+    { icon: Workflow, label: "Custom Workflows", gold: true },
   ];
 
   return (
-    <div className="relative w-full h-[350px] sm:h-[420px]">
-      {/* Gradient Background Glow */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gradient-to-r from-purple-600/20 via-violet-600/20 to-indigo-600/20 rounded-full blur-[80px]" />
+    <motion.div
+      className="relative w-full max-w-lg mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      {/* Premium glow with gold accent */}
+      <div className="absolute -inset-4 bg-gradient-to-r from-[#D4AF37]/10 via-purple-500/10 to-[#D4AF37]/10 rounded-3xl blur-2xl" />
+
+      {/* Main Dashboard Card */}
+      <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-purple-900/20 border border-[#D4AF37]/20 overflow-hidden">
+        {/* Header Bar with Gold Accent */}
+        <div className="flex items-center justify-between px-5 py-3 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#B8962E] flex items-center justify-center">
+              <LayoutDashboard className="w-4 h-4 text-slate-900" />
+            </div>
+            <span className="text-white text-sm font-semibold">Enterprise Command Center</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] text-[#D4AF37] font-medium uppercase tracking-wider">Live</span>
+            <div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
+          </div>
+        </div>
+
+        {/* Metrics Row */}
+        <div className="grid grid-cols-4 gap-2 p-4 border-b border-slate-100">
+          {metrics.map((metric, idx) => {
+            const Icon = metric.icon;
+            const isActive = activeMetric === idx;
+            return (
+              <motion.div
+                key={idx}
+                className={`relative p-2.5 rounded-xl text-center transition-all duration-300 ${
+                  isActive
+                    ? metric.isGold
+                      ? "bg-[#D4AF37]/10 ring-1 ring-[#D4AF37]/30"
+                      : "bg-purple-50 ring-1 ring-purple-200"
+                    : "bg-slate-50/80"
+                }`}
+                animate={{ scale: isActive ? 1.02 : 1 }}
+              >
+                <Icon
+                  className="w-4 h-4 mx-auto mb-1"
+                  style={{ color: isActive ? metric.color : "#94a3b8" }}
+                />
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider">{metric.label}</div>
+                <div className={`text-sm font-bold ${
+                  isActive && metric.isGold ? "text-[#B8962E]" : isActive ? "text-purple-700" : "text-slate-600"
+                }`}>
+                  {metric.value}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Capabilities Grid */}
+        <div className="p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <InfinityIcon className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span className="text-[10px] text-[#D4AF37] uppercase tracking-wider font-semibold">Unlimited Capabilities</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {capabilities.map((cap, idx) => {
+              const Icon = cap.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  className={`flex items-center gap-2.5 p-2.5 rounded-lg border ${
+                    cap.gold
+                      ? "bg-gradient-to-r from-[#D4AF37]/5 to-[#D4AF37]/10 border-[#D4AF37]/20"
+                      : "bg-gradient-to-r from-slate-50 to-purple-50/50 border-slate-100"
+                  }`}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + idx * 0.1 }}
+                >
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-sm ${
+                    cap.gold
+                      ? "bg-gradient-to-br from-[#D4AF37] to-[#B8962E]"
+                      : "bg-gradient-to-br from-purple-500 to-violet-600"
+                  }`}>
+                    <Icon className={`w-4 h-4 ${cap.gold ? "text-slate-900" : "text-white"}`} />
+                  </div>
+                  <span className={`text-xs font-medium ${cap.gold ? "text-[#B8962E]" : "text-slate-700"}`}>{cap.label}</span>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mini Chart */}
+        <div className="px-4 pb-4">
+          <div className="p-3 rounded-xl bg-slate-50/80 border border-slate-100">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] text-slate-400 uppercase tracking-wider">System Performance</span>
+              <span className="text-xs font-semibold text-[#D4AF37]">Optimal</span>
+            </div>
+            <div className="flex items-end gap-1 h-10">
+              {[65, 78, 45, 82, 56, 90, 72, 88, 68, 95, 75, 85].map((h, i) => (
+                <motion.div
+                  key={i}
+                  className={`flex-1 rounded-sm ${
+                    h > 80 ? "bg-gradient-to-t from-[#D4AF37] to-[#F4E4B2]" : "bg-gradient-to-t from-purple-500 to-violet-400"
+                  }`}
+                  initial={{ height: 0 }}
+                  animate={{ height: `${h}%` }}
+                  transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Animated Grid */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(139, 92, 246, 0.8) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(139, 92, 246, 0.8) 1px, transparent 1px)
-          `,
-          backgroundSize: "30px 30px",
-        }}
-      />
+      {/* Floating badges with premium styling */}
+      <motion.div
+        className="absolute -right-3 top-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 shadow-lg border border-[#D4AF37]/30"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8 }}
+      >
+        <Headphones className="w-3.5 h-3.5 text-[#D4AF37]" />
+        <span className="text-[10px] font-semibold text-white">24/7 Support</span>
+      </motion.div>
 
-      {/* Orbital Rings */}
-      <svg className="absolute inset-0 w-full h-full">
-        <defs>
-          <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#6366F1" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.3" />
-          </linearGradient>
-          <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A855F7" />
-            <stop offset="100%" stopColor="#6366F1" />
-          </linearGradient>
-        </defs>
-
-        {/* Inner Ring */}
-        <motion.circle
-          cx="50%"
-          cy="50%"
-          r="28%"
-          fill="none"
-          stroke="url(#ringGradient)"
-          strokeWidth="1"
-          strokeDasharray="4 4"
-          initial={{ rotate: 0 }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "center" }}
-        />
-
-        {/* Outer Ring */}
-        <motion.circle
-          cx="50%"
-          cy="50%"
-          r="42%"
-          fill="none"
-          stroke="url(#ringGradient)"
-          strokeWidth="1"
-          strokeDasharray="8 4"
-          initial={{ rotate: 0 }}
-          animate={{ rotate: -360 }}
-          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "center" }}
-        />
-
-        {/* Connection Lines from Core to Orbital */}
-        {orbitalNodes.map((node, idx) => (
-          <motion.line
-            key={`line-${idx}`}
-            x1="50%"
-            y1="50%"
-            x2={`${node.x}%`}
-            y2={`${node.y}%`}
-            stroke="url(#pulseGradient)"
-            strokeWidth="1.5"
-            strokeOpacity={activeNode === idx ? 0.8 : 0.2}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1, strokeOpacity: activeNode === idx ? 0.8 : 0.2 }}
-            transition={{ duration: 0.5 }}
-          />
-        ))}
-
-        {/* Data Flow Particles */}
-        {orbitalNodes.map((node, idx) => (
-          <motion.circle
-            key={`particle-${idx}`}
-            r="3"
-            fill="#A855F7"
-            initial={{ cx: "50%", cy: "50%" }}
-            animate={{
-              cx: activeNode === idx ? `${node.x}%` : "50%",
-              cy: activeNode === idx ? `${node.y}%` : "50%",
-            }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{ filter: "drop-shadow(0 0 6px #A855F7)" }}
-          />
-        ))}
-      </svg>
-
-      {/* Core Node */}
-      {coreNodes.map((node) => {
-        const Icon = node.icon;
-        return (
-          <motion.div
-            key={node.id}
-            className="absolute flex flex-col items-center"
-            style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.6, type: "spring" }}
-          >
-            {/* Pulse Ring */}
-            <motion.div
-              className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-purple-500/30"
-              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
-            {/* Core */}
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl shadow-purple-500/40 border border-purple-400/30">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              >
-                <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
-              </motion.div>
-            </div>
-            <span className="mt-2 text-xs sm:text-sm font-bold text-purple-300">{node.label}</span>
-          </motion.div>
-        );
-      })}
-
-      {/* Orbital Nodes */}
-      {orbitalNodes.map((node, idx) => {
-        const Icon = node.icon;
-        const isActive = activeNode === idx;
-        return (
-          <motion.div
-            key={node.id}
-            className="absolute flex flex-col items-center"
-            style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 + idx * 0.1 }}
-          >
-            <motion.div
-              className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center border transition-all duration-500 ${
-                isActive
-                  ? "bg-gradient-to-br from-purple-600 to-violet-600 border-purple-400 shadow-lg shadow-purple-500/40"
-                  : "bg-slate-900/80 border-purple-500/30 hover:border-purple-400/50"
-              }`}
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 3 + idx * 0.3, repeat: Infinity }}
-            >
-              <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${isActive ? "text-white" : "text-purple-400"}`} />
-            </motion.div>
-            <span className={`mt-1 text-[10px] sm:text-xs font-medium ${isActive ? "text-purple-300" : "text-slate-500"}`}>
-              {node.label}
-            </span>
-          </motion.div>
-        );
-      })}
-
-      {/* Satellite Nodes */}
-      {satelliteNodes.map((node, idx) => {
-        const Icon = node.icon;
-        return (
-          <motion.div
-            key={`sat-${idx}`}
-            className="absolute"
-            style={{ left: `${node.x}%`, top: `${node.y}%`, transform: "translate(-50%, -50%)" }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.6 }}
-            transition={{ duration: 0.5, delay: 0.5 + idx * 0.05 }}
-          >
-            <motion.div
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900/60 border border-purple-500/20 flex items-center justify-center"
-              animate={{ y: [0, -2, 0] }}
-              transition={{ duration: 4 + idx * 0.2, repeat: Infinity }}
-            >
-              <Icon className="w-3 h-3 sm:w-4 sm:h-4 text-purple-500/70" />
-            </motion.div>
-          </motion.div>
-        );
-      })}
-
-      {/* Floating Data Streams */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={`stream-${i}`}
-          className="absolute w-1 h-1 bg-purple-400 rounded-full"
-          style={{
-            left: `${15 + Math.random() * 70}%`,
-            top: `${15 + Math.random() * 70}%`,
-          }}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, (Math.random() - 0.5) * 30, 0],
-            opacity: [0, 0.8, 0],
-            scale: [0.5, 1, 0.5],
-          }}
-          transition={{
-            duration: 3 + Math.random() * 2,
-            repeat: Infinity,
-            delay: Math.random() * 3,
-          }}
-        />
-      ))}
-    </div>
+      <motion.div
+        className="absolute -left-3 bottom-24 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 shadow-lg border border-[#D4AF37]/30"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1 }}
+      >
+        <Shield className="w-3.5 h-3.5 text-[#D4AF37]" />
+        <span className="text-[10px] font-semibold text-white">Bank-Grade Security</span>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -882,14 +750,14 @@ function WhatsAppCTA({ productTitle, ctaText, isEnterprise }: { productTitle: st
       rel="noopener noreferrer"
       className={`group relative inline-flex items-center justify-center gap-2.5 px-6 py-3.5 font-bold text-sm rounded-xl shadow-lg transition-all overflow-hidden ${
         isEnterprise
-          ? "bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 text-white shadow-purple-500/30 hover:shadow-purple-500/50"
+          ? "bg-white text-purple-700 shadow-purple-900/20 hover:shadow-purple-900/30"
           : "bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white shadow-green-500/25 hover:shadow-green-500/40"
       }`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
+        className={`absolute inset-0 bg-gradient-to-r from-transparent to-transparent -translate-x-full ${isEnterprise ? "via-purple-100" : "via-white/20"}`}
         animate={{ translateX: ["-100%", "200%"] }}
         transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
       />
@@ -906,7 +774,7 @@ function PhoneCTA({ text, isEnterprise }: { text: string; isEnterprise?: boolean
       href={PHONE_LINK}
       className={`inline-flex items-center justify-center gap-2 px-5 py-3.5 text-sm font-semibold rounded-xl transition-all ${
         isEnterprise
-          ? "bg-slate-800/80 border border-purple-500/30 text-purple-300 hover:border-purple-400 hover:text-purple-200 hover:bg-slate-800"
+          ? "bg-white/15 backdrop-blur-sm border border-white/25 text-white hover:bg-white/25"
           : "bg-white/10 border border-white/20 text-white hover:bg-white/20"
       }`}
       whileHover={{ scale: 1.02 }}
@@ -915,41 +783,6 @@ function PhoneCTA({ text, isEnterprise }: { text: string; isEnterprise?: boolean
       <Phone className="w-4 h-4" />
       {text}
     </motion.a>
-  );
-}
-
-// ============================================================================
-// ENTERPRISE FEATURE CARD
-// ============================================================================
-function EnterpriseFeatureCard({ feature, index }: { feature: ProductFeature; index: number }) {
-  const Icon = feature.icon;
-
-  return (
-    <motion.div
-      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all border ${
-        feature.highlight
-          ? "bg-purple-500/10 border-purple-500/30 hover:border-purple-400/50"
-          : "bg-slate-800/30 border-slate-700/30 hover:border-slate-600/50"
-      }`}
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.015 }}
-      whileHover={{ x: 2 }}
-    >
-      <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
-        feature.highlight
-          ? "bg-purple-500/20 text-purple-400"
-          : "bg-slate-700/50 text-slate-400"
-      }`}>
-        <Icon className="w-4 h-4" />
-      </div>
-      <span className={`text-[13px] leading-tight ${
-        feature.highlight ? "font-semibold text-purple-200" : "font-medium text-slate-300"
-      }`}>
-        {feature.text}
-      </span>
-    </motion.div>
   );
 }
 
@@ -963,7 +796,7 @@ function FeatureItem({ feature, isEnterprise, index }: { feature: ProductFeature
     <motion.div
       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all ${
         isEnterprise
-          ? "bg-slate-800/40 hover:bg-slate-800/70 border border-slate-800"
+          ? "bg-white/70 hover:bg-white border border-purple-100 hover:border-purple-300"
           : "bg-white/60 hover:bg-white border border-slate-100 hover:border-purple-200"
       }`}
       initial={{ opacity: 0, x: -8 }}
@@ -972,13 +805,297 @@ function FeatureItem({ feature, isEnterprise, index }: { feature: ProductFeature
       transition={{ delay: index * 0.02 }}
     >
       {feature.highlight ? (
-        <BadgeCheck className={`w-4 h-4 flex-shrink-0 ${isEnterprise ? "text-purple-400" : "text-purple-600"}`} />
+        <BadgeCheck className={`w-4 h-4 flex-shrink-0 ${isEnterprise ? "text-purple-600" : "text-purple-600"}`} />
       ) : (
         <Icon className={`w-4 h-4 flex-shrink-0 ${isEnterprise ? "text-slate-500" : "text-slate-400"}`} />
       )}
-      <span className={`text-[13px] leading-tight ${feature.highlight ? "font-semibold" : "font-medium"} ${isEnterprise ? "text-slate-300" : "text-slate-700"}`}>
+      <span className={`text-[13px] leading-tight ${feature.highlight ? "font-semibold" : "font-medium"} ${isEnterprise ? "text-slate-700" : "text-slate-700"}`}>
         {feature.text}
       </span>
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// ENTERPRISE FEATURES PILLARS - COMPACT WITH MODAL
+// ============================================================================
+const enterpriseFeaturePillars = [
+  {
+    icon: Globe,
+    title: "Infrastructure & Scale",
+    subtitle: "Built for unlimited growth",
+    gradient: "from-purple-500 to-violet-600",
+    features: [
+      { icon: Users, text: "Unlimited User Licenses", highlight: true },
+      { icon: Building2, text: "Unlimited Branches & Entities", highlight: true },
+      { icon: Activity, text: "Unlimited Transaction Volume", highlight: true },
+      { icon: Cloud, text: "Dedicated Cloud Infrastructure" },
+      { icon: Server, text: "On-Premise Deployment Option" },
+      { icon: Database, text: "Multi-Region Data Centers" },
+      { icon: Layers, text: "Auto-Scaling Architecture" },
+      { icon: GitBranch, text: "Load Balancing & Redundancy" },
+      { icon: Gauge, text: "99.99% Uptime SLA Guarantee" },
+      { icon: HardDrive, text: "Geo-Redundant Storage" },
+      { icon: RefreshCw, text: "Automated Hourly Backups" },
+      { icon: Timer, text: "Point-in-Time Recovery" },
+    ],
+  },
+  {
+    icon: Shield,
+    title: "Security & Compliance",
+    subtitle: "Bank-grade protection",
+    gradient: "from-emerald-500 to-teal-600",
+    features: [
+      { icon: Lock, text: "AES-256 Military-Grade Encryption", highlight: true },
+      { icon: ShieldCheck, text: "SOC 2 Type II Certified", highlight: true },
+      { icon: Fingerprint, text: "GDPR & Data Protection Ready", highlight: true },
+      { icon: Key, text: "Role-Based Access Control (RBAC)" },
+      { icon: UserCheck, text: "Multi-Factor Authentication (MFA)" },
+      { icon: ScrollText, text: "Complete Audit Trail & Logging" },
+      { icon: Wifi, text: "IP Whitelisting & Geo-Fencing" },
+      { icon: Target, text: "Annual Penetration Testing" },
+      { icon: FolderLock, text: "Data Encryption at Rest & Transit" },
+      { icon: Eye, text: "Real-Time Threat Monitoring" },
+      { icon: FileCheck, text: "Compliance Reporting Dashboard" },
+      { icon: Scale, text: "Regulatory Framework Support" },
+    ],
+  },
+  {
+    icon: Cpu,
+    title: "Intelligence & Analytics",
+    subtitle: "AI-powered decisions",
+    gradient: "from-blue-500 to-indigo-600",
+    features: [
+      { icon: Cpu, text: "Full Josea AI Suite Included", highlight: true },
+      { icon: LineChart, text: "Predictive Demand Forecasting", highlight: true },
+      { icon: LayoutDashboard, text: "Real-Time BI Dashboards", highlight: true },
+      { icon: FileSpreadsheet, text: "Custom Report Builder" },
+      { icon: TrendingUp, text: "Machine Learning Models" },
+      { icon: Eye, text: "Anomaly Detection System" },
+      { icon: PieChart, text: "Executive KPI Dashboards" },
+      { icon: BarChart3, text: "Multi-Dimensional Analysis" },
+      { icon: Bell, text: "Intelligent Alert System" },
+      { icon: Target, text: "Performance Benchmarking" },
+      { icon: FileClock, text: "Historical Trend Analysis" },
+      { icon: Scan, text: "Document OCR & Processing" },
+    ],
+  },
+  {
+    icon: Network,
+    title: "Integration & Connectivity",
+    subtitle: "Seamless orchestration",
+    gradient: "from-orange-500 to-red-600",
+    features: [
+      { icon: Network, text: "RESTful & GraphQL API Access", highlight: true },
+      { icon: Boxes, text: "ERP Integration (SAP, Oracle)", highlight: true },
+      { icon: Users, text: "CRM Connectors (Salesforce)", highlight: true },
+      { icon: CreditCard, text: "Payment Gateway APIs" },
+      { icon: Workflow, text: "Webhook & Event Automation" },
+      { icon: Settings, text: "Custom Integration Development" },
+      { icon: Key, text: "SSO & LDAP/Active Directory" },
+      { icon: RefreshCw, text: "Real-Time Data Synchronization" },
+      { icon: Mail, text: "Email & SMS Gateway Integration" },
+      { icon: MessageSquare, text: "Communication Platform APIs" },
+      { icon: Landmark, text: "Government System Connectors" },
+      { icon: Banknote, text: "Banking & Financial APIs" },
+    ],
+  },
+];
+
+function EnterpriseFeaturesPillars() {
+  const [activeModal, setActiveModal] = useState<number | null>(null);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+    >
+      {/* Section Header */}
+      <div className="text-center mb-8">
+        <motion.div
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/20 to-[#D4AF37]/10 border border-[#D4AF37]/30 mb-4"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          <InfinityIcon className="w-4 h-4 text-[#D4AF37]" />
+          <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">Boundless Platform</span>
+        </motion.div>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+          <span className="text-slate-900">Limitless </span>
+          <span className="bg-gradient-to-r from-[#D4AF37] via-[#B8962E] to-[#D4AF37] bg-clip-text text-transparent">Capabilities</span>
+        </h2>
+        <p className="mt-3 text-sm sm:text-base text-slate-500 max-w-xl mx-auto">
+          Every feature your enterprise demands, meticulously engineered for{" "}
+          <span className="text-slate-700 font-medium">mission-critical operations</span>
+        </p>
+      </div>
+
+      {/* Compact 2x2 Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {enterpriseFeaturePillars.map((pillar, idx) => {
+          const PillarIcon = pillar.icon;
+          const previewFeatures = pillar.features.filter(f => f.highlight).slice(0, 3);
+          const totalFeatures = pillar.features.length;
+
+          return (
+            <motion.div
+              key={idx}
+              className="group relative bg-white rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              onClick={() => setActiveModal(idx)}
+            >
+              {/* Compact Header */}
+              <div className={`bg-gradient-to-r ${pillar.gradient} p-3 sm:p-4`}>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <PillarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-xs sm:text-sm font-bold text-white truncate">{pillar.title}</h3>
+                    <p className="text-[10px] sm:text-xs text-white/70 truncate">{pillar.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Preview Features */}
+              <div className="p-3 sm:p-4">
+                <div className="space-y-1.5 sm:space-y-2">
+                  {previewFeatures.map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-center gap-2">
+                      <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-purple-600 flex-shrink-0" />
+                      <span className="text-[10px] sm:text-xs font-medium text-slate-700 truncate">{feature.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* See All Button */}
+                <button className="mt-3 w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 transition-colors">
+                  <span className="text-[10px] sm:text-xs font-semibold">+{totalFeatures - 3} more features</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Feature Modal */}
+      <AnimatePresence>
+        {activeModal !== null && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveModal(null)}
+            />
+
+            {/* Modal Content */}
+            <motion.div
+              className="relative w-full max-w-lg max-h-[80vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            >
+              {/* Modal Header */}
+              <div className={`bg-gradient-to-r ${enterpriseFeaturePillars[activeModal].gradient} p-5`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      {(() => {
+                        const Icon = enterpriseFeaturePillars[activeModal].icon;
+                        return <Icon className="w-6 h-6 text-white" />;
+                      })()}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{enterpriseFeaturePillars[activeModal].title}</h3>
+                      <p className="text-sm text-white/80">{enterpriseFeaturePillars[activeModal].subtitle}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setActiveModal(null)}
+                    className="w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
+                  >
+                    <span className="text-white text-lg">×</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal Features */}
+              <div className="p-5 overflow-y-auto max-h-[calc(80vh-100px)]">
+                <div className="grid gap-2">
+                  {enterpriseFeaturePillars[activeModal].features.map((feature, fIdx) => {
+                    const FeatureIcon = feature.icon;
+                    return (
+                      <div
+                        key={fIdx}
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg ${
+                          feature.highlight
+                            ? "bg-gradient-to-r from-purple-50 to-violet-50 border border-purple-200"
+                            : "bg-slate-50"
+                        }`}
+                      >
+                        {feature.highlight ? (
+                          <BadgeCheck className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                        ) : (
+                          <FeatureIcon className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                        )}
+                        <span className={`text-sm ${feature.highlight ? "font-semibold text-slate-800" : "text-slate-600"}`}>
+                          {feature.text}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Operations & Support Bar - Compact */}
+      <motion.div
+        className="mt-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-xl p-4 sm:p-6 border border-slate-700"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4 }}
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h3 className="text-base sm:text-lg font-bold text-white">Operations & Support Excellence</h3>
+            <p className="text-xs sm:text-sm text-slate-400">White-glove service for mission-critical deployments</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { icon: Headphones, label: "24/7 Support" },
+              { icon: Award, label: "Dedicated Manager" },
+              { icon: Smartphone, label: "Mobile Apps" },
+              { icon: Palette, label: "White-Label" },
+            ].map((item, idx) => {
+              const ItemIcon = item.icon;
+              return (
+                <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10">
+                  <ItemIcon className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span className="text-[10px] sm:text-xs font-medium text-white">{item.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -993,7 +1110,7 @@ function IndustryCard({ industry, isEnterprise, index }: { industry: TargetIndus
     <motion.div
       className={`group flex items-center gap-3 p-3 rounded-xl transition-all cursor-default ${
         isEnterprise
-          ? "bg-slate-800/30 border border-slate-700/40 hover:border-purple-500/40 hover:bg-slate-800/60"
+          ? "bg-slate-50 border border-slate-200 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/5 hover:bg-white"
           : "bg-white/70 border border-slate-200/80 hover:border-purple-300 hover:shadow-md hover:shadow-purple-500/5"
       }`}
       initial={{ opacity: 0, y: 8 }}
@@ -1004,13 +1121,13 @@ function IndustryCard({ industry, isEnterprise, index }: { industry: TargetIndus
     >
       <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
         isEnterprise
-          ? "bg-slate-700/80 group-hover:bg-purple-500/20 text-slate-400 group-hover:text-purple-400"
+          ? "bg-purple-100 group-hover:bg-purple-500 text-purple-600 group-hover:text-white"
           : "bg-purple-100/80 group-hover:bg-purple-200 text-purple-600"
       }`}>
         <Icon className="w-4 h-4" strokeWidth={2} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className={`text-[13px] font-semibold leading-tight ${isEnterprise ? "text-slate-200" : "text-slate-800"}`}>
+        <div className={`text-[13px] font-semibold leading-tight ${isEnterprise ? "text-slate-800" : "text-slate-800"}`}>
           {industry.name}
         </div>
         <div className={`text-[11px] leading-tight ${isEnterprise ? "text-slate-500" : "text-slate-500"}`}>
@@ -1034,35 +1151,36 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
   const isEnterprise = product.mode === "blueprint";
 
-  // Group features by category for Enterprise
-  const featureCategories = isEnterprise && product.slug === "enterprise-os" ? [
-    { title: "Scale & Infrastructure", features: product.features.slice(0, 8) },
-    { title: "AI & Analytics", features: product.features.slice(8, 14) },
-    { title: "Security & Compliance", features: product.features.slice(14, 22) },
-    { title: "Integration & API", features: product.features.slice(22, 30) },
-    { title: "Operations & Workflow", features: product.features.slice(30, 38) },
-    { title: "Support & SLA", features: product.features.slice(38, 46) },
-    { title: "Disaster Recovery", features: product.features.slice(46, 51) },
-    { title: "Customization", features: product.features.slice(51) },
-  ] : null;
-
   return (
     <>
       <Navbar />
       <main className="min-h-screen">
         {/* HERO */}
         <section className={`relative overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-16 ${
-          isEnterprise
-            ? "bg-gradient-to-b from-slate-950 via-[#0c0a1d] to-slate-950"
+          isEnterprise && product.slug === "enterprise-os"
+            ? "bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900"
+            : isEnterprise
+            ? "bg-gradient-to-r from-[#7e22ce] via-[#a855f7] to-[#f5f3ff]"
             : "bg-gradient-to-br from-slate-50 via-purple-50/40 to-indigo-50/40"
         }`}>
-          {isEnterprise ? (
+          {isEnterprise && product.slug === "enterprise-os" ? (
             <>
-              <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
-              <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px]" />
-              <div className="absolute inset-0 opacity-[0.03]" style={{
-                backgroundImage: "radial-gradient(rgba(139, 92, 246, 0.8) 1px, transparent 1px)",
-                backgroundSize: "24px 24px",
+              {/* Premium Enterprise Background */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,80,180,0.3),transparent)]" />
+              <div className="absolute inset-0 opacity-[0.015]" style={{
+                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.8) 1px, transparent 1px)",
+                backgroundSize: "40px 40px",
+              }} />
+              {/* Gold accent lines */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
+              <div className="absolute top-20 left-10 w-72 h-72 bg-[#D4AF37]/5 rounded-full blur-3xl" />
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+            </>
+          ) : isEnterprise ? (
+            <>
+              <div className="absolute inset-0 opacity-[0.04]" style={{
+                backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
+                backgroundSize: "32px 32px",
               }} />
             </>
           ) : (
@@ -1080,45 +1198,96 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               <div className="text-center lg:text-left">
                 <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-2 mb-4">
                   {product.badge && (
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-wider ${
-                      isEnterprise
-                        ? "bg-gradient-to-r from-purple-500/20 to-violet-500/20 text-purple-300 border border-purple-500/30"
+                    <span className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest ${
+                      isEnterprise && product.slug === "enterprise-os"
+                        ? "bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-yellow-500/20 border border-[#D4AF37]/30"
+                        : isEnterprise
+                        ? "bg-white/90 text-purple-700 border border-white/50 shadow-sm"
                         : product.badge === "POPULAR"
                         ? "bg-purple-600 text-white"
                         : "bg-purple-100 text-purple-700 border border-purple-200"
                     }`}>
                       {product.badge === "POPULAR" && <Crown className="w-3 h-3" />}
-                      {product.badge === "ENTERPRISE" && <Shield className="w-3 h-3" />}
+                      {product.badge === "ENTERPRISE" && <Crown className="w-3.5 h-3.5 text-slate-800" />}
                       {product.badge}
                     </span>
                   )}
-                  <span className={`text-[10px] font-semibold tracking-wider uppercase ${isEnterprise ? "text-slate-500" : "text-slate-500"}`}>
+                  <span className={`text-[10px] font-semibold tracking-wider uppercase ${isEnterprise ? "text-white/70" : "text-slate-500"}`}>
                     {product.category === "operations" ? "Operations Suite" : "Digital Suite"}
                   </span>
                 </motion.div>
 
-                <motion.h1 variants={itemVariants} className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                  {product.title}
-                </motion.h1>
+                {/* Enterprise Hero with Visual Hierarchy */}
+                {isEnterprise && product.slug === "enterprise-os" ? (
+                  <>
+                    <motion.h1 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight">
+                      <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
+                        {product.title}
+                      </span>
+                    </motion.h1>
 
-                <motion.p variants={itemVariants} className={`mt-2 text-lg sm:text-xl lg:text-2xl font-medium ${
-                  isEnterprise ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-violet-400 to-indigo-400" : "text-purple-600"
-                }`}>
-                  {product.tagline}
-                </motion.p>
+                    <motion.p variants={itemVariants} className="mt-3 text-xl sm:text-2xl lg:text-3xl font-semibold">
+                      <span className="bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
+                        {product.tagline}
+                      </span>
+                    </motion.p>
 
-                <motion.p variants={itemVariants} className={`mt-5 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 ${isEnterprise ? "text-slate-400" : "text-slate-600"}`}>
-                  {product.description}
-                </motion.p>
+                    <motion.div variants={itemVariants} className="mt-6 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                      <p className="text-white/60">
+                        When <span className="text-white font-medium">off-the-shelf software</span> cannot meet your{" "}
+                        <span className="text-[#D4AF37] font-semibold">operational complexity</span>, we architect and build{" "}
+                        <span className="text-white font-medium">bespoke systems</span> from the ground up.
+                      </p>
+                      <p className="mt-3 text-white/60">
+                        Enterprise OS delivers <span className="text-white font-medium">custom workflow engines</span>,{" "}
+                        <span className="text-white font-medium">real-time analytics</span>, and{" "}
+                        <span className="text-white font-medium">seamless integrations</span>—all secured with{" "}
+                        <span className="text-[#D4AF37] font-semibold">bank-grade encryption</span> and backed by{" "}
+                        <span className="text-[#D4AF37] font-semibold">99.99% uptime SLA</span>.
+                      </p>
+                    </motion.div>
+                  </>
+                ) : (
+                  <>
+                    <motion.h1 variants={itemVariants} className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight ${isEnterprise ? "text-white" : "text-slate-900"}`}>
+                      {product.title}
+                    </motion.h1>
+
+                    <motion.p variants={itemVariants} className={`mt-2 text-lg sm:text-xl lg:text-2xl font-medium ${
+                      isEnterprise ? "text-white/90" : "text-purple-600"
+                    }`}>
+                      {product.tagline}
+                    </motion.p>
+
+                    <motion.p variants={itemVariants} className={`mt-5 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 ${isEnterprise ? "text-purple-100/90" : "text-slate-600"}`}>
+                      {product.description}
+                    </motion.p>
+                  </>
+                )}
 
                 <motion.div variants={itemVariants} className="mt-6">
-                  <span className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                    {product.price}
-                  </span>
-                  {product.priceSubtext && (
-                    <span className={`block sm:inline sm:ml-3 mt-1 sm:mt-0 text-sm ${isEnterprise ? "text-slate-500" : "text-slate-500"}`}>
-                      {product.priceSubtext}
-                    </span>
+                  {isEnterprise && product.slug === "enterprise-os" ? (
+                    <div className="flex items-baseline gap-3 justify-center lg:justify-start">
+                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
+                        {product.price}
+                      </span>
+                      {product.priceSubtext && (
+                        <span className="text-sm text-white/50">
+                          {product.priceSubtext}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <span className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
+                        {product.price}
+                      </span>
+                      {product.priceSubtext && (
+                        <span className={`block sm:inline sm:ml-3 mt-1 sm:mt-0 text-sm ${isEnterprise ? "text-purple-100/70" : "text-slate-500"}`}>
+                          {product.priceSubtext}
+                        </span>
+                      )}
+                    </>
                   )}
                 </motion.div>
 
@@ -1127,18 +1296,25 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   <PhoneCTA text={product.secondaryCtaText} isEnterprise={isEnterprise} />
                 </motion.div>
 
-                {/* Enterprise Trust Badges */}
+                {/* Enterprise Trust Badges with Gold Accents */}
                 {isEnterprise && product.slug === "enterprise-os" && (
-                  <motion.div variants={itemVariants} className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                  <motion.div variants={itemVariants} className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-3">
                     {[
-                      { icon: Shield, label: "SOC 2" },
-                      { icon: Lock, label: "AES-256" },
-                      { icon: Activity, label: "99.99% SLA" },
-                      { icon: Headphones, label: "24/7" },
+                      { icon: Shield, label: "SOC 2 Compliant", gold: true },
+                      { icon: Lock, label: "AES-256 Encryption", gold: true },
+                      { icon: Activity, label: "99.99% Uptime", gold: false },
+                      { icon: Headphones, label: "24/7 Support", gold: false },
                     ].map((badge, idx) => (
-                      <div key={idx} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">
-                        <badge.icon className="w-4 h-4 text-purple-400" />
-                        <span className="text-xs font-semibold text-slate-300">{badge.label}</span>
+                      <div
+                        key={idx}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-sm border ${
+                          badge.gold
+                            ? "bg-[#D4AF37]/20 border-[#D4AF37]/40"
+                            : "bg-white/10 border-white/20"
+                        }`}
+                      >
+                        <badge.icon className={`w-3.5 h-3.5 ${badge.gold ? "text-[#D4AF37]" : "text-white"}`} />
+                        <span className={`text-xs font-medium ${badge.gold ? "text-[#D4AF37]" : "text-white/90"}`}>{badge.label}</span>
                       </div>
                     ))}
                   </motion.div>
@@ -1148,7 +1324,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               {/* Visual */}
               <motion.div variants={itemVariants}>
                 {isEnterprise && product.slug === "enterprise-os" ? (
-                  <EnterpriseNeuralNetwork />
+                  <EnterpriseDashboardPreview />
                 ) : isEnterprise ? (
                   <TabletBillboard screens={product.carouselScreens} isEnterprise={true} />
                 ) : (
@@ -1160,129 +1336,289 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
         </section>
 
         {/* FEATURES */}
-        <section className={`py-12 sm:py-16 ${isEnterprise ? "bg-slate-950" : "bg-white"}`}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <motion.div
-              className="text-center mb-8 sm:mb-10"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className={`text-2xl sm:text-3xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                {isEnterprise && product.slug === "enterprise-os" ? "Unlimited Capabilities" : "What's Included"}
-              </h2>
-              <p className={`mt-2 text-sm sm:text-base max-w-2xl mx-auto ${isEnterprise ? "text-slate-400" : "text-slate-500"}`}>
-                {isEnterprise && product.slug === "enterprise-os"
-                  ? "Every feature you could fathom. Built for enterprises that demand excellence."
-                  : `${product.features.length} powerful features`}
-              </p>
-            </motion.div>
-
-            {/* Enterprise Categorized Features */}
-            {featureCategories ? (
-              <div className="space-y-8">
-                {featureCategories.map((category, catIdx) => (
-                  <motion.div
-                    key={catIdx}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: catIdx * 0.05 }}
-                  >
-                    <h3 className="text-sm font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="w-8 h-px bg-purple-500/50" />
-                      {category.title}
-                    </h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                      {category.features.map((feature, idx) => (
-                        <EnterpriseFeatureCard key={idx} feature={feature} index={catIdx * 8 + idx} />
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+        <section className={`py-12 sm:py-16 ${
+          isEnterprise && product.slug === "enterprise-os"
+            ? "bg-gradient-to-b from-white via-slate-50 to-white"
+            : isEnterprise
+            ? "bg-slate-50"
+            : "bg-white"
+        }`}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            {/* Enterprise Features - Boundless Capabilities */}
+            {isEnterprise && product.slug === "enterprise-os" ? (
+              <EnterpriseFeaturesPillars />
             ) : (
               /* Standard Features Grid */
-              <div className={`grid gap-2 ${
-                product.features.length > 14
-                  ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-                  : product.features.length > 8
-                  ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-                  : "grid-cols-2 sm:grid-cols-3"
-              }`}>
-                {product.features.map((feature, idx) => (
-                  <FeatureItem key={idx} feature={feature} isEnterprise={isEnterprise} index={idx} />
-                ))}
-              </div>
+              <>
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">What&apos;s Included</h2>
+                  <p className="mt-2 text-sm text-slate-500">{product.features.length} powerful features</p>
+                </div>
+                <div className={`grid gap-2 ${
+                  product.features.length > 14
+                    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+                    : product.features.length > 8
+                    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+                    : "grid-cols-2 sm:grid-cols-3"
+                }`}>
+                  {product.features.map((feature, idx) => (
+                    <FeatureItem key={idx} feature={feature} isEnterprise={isEnterprise} index={idx} />
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </section>
 
         {/* INDUSTRIES */}
-        <section className={`py-12 sm:py-14 ${isEnterprise ? "bg-[#0c0a1d]" : "bg-slate-50"}`}>
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <motion.div
-              className="text-center mb-8"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className={`text-2xl sm:text-3xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                {isEnterprise ? "Trusted by Industry Leaders" : "Perfect For Your Industry"}
-              </h2>
-              <p className={`mt-2 text-sm ${isEnterprise ? "text-slate-500" : "text-slate-500"}`}>
-                Powering operations across these sectors
-              </p>
-            </motion.div>
+        {isEnterprise && product.slug === "enterprise-os" ? (
+          <section className="py-16 sm:py-20 bg-gradient-to-b from-slate-50 to-white">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <motion.div
+                className="text-center mb-12"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-700 mb-4"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                >
+                  <Building2 className="w-4 h-4 text-[#D4AF37]" />
+                  <span className="text-xs font-bold tracking-widest text-white uppercase">Enterprise Sectors</span>
+                </motion.div>
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
+                  Trusted by <span className="bg-gradient-to-r from-[#D4AF37] via-[#B8962E] to-[#D4AF37] bg-clip-text text-transparent">Industry Leaders</span>
+                </h2>
+                <p className="mt-3 text-base text-slate-500 max-w-2xl mx-auto">
+                  Powering mission-critical operations across diverse enterprise sectors
+                </p>
+              </motion.div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-              {product.targetIndustries.map((industry, idx) => (
-                <IndustryCard key={idx} industry={industry} isEnterprise={isEnterprise} index={idx} />
-              ))}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                {product.targetIndustries.map((industry, idx) => {
+                  const Icon = industry.icon;
+                  const isHighlight = idx < 3; // First 3 are highlighted
+                  return (
+                    <motion.div
+                      key={idx}
+                      className={`group relative flex flex-col items-center p-5 rounded-2xl transition-all cursor-default ${
+                        isHighlight
+                          ? "bg-gradient-to-b from-slate-900 to-slate-800 border border-[#D4AF37]/30 hover:border-[#D4AF37]/50"
+                          : "bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg"
+                      }`}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.05 }}
+                      whileHover={{ y: -2 }}
+                    >
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-all ${
+                        isHighlight
+                          ? "bg-gradient-to-br from-[#D4AF37] to-[#B8962E] shadow-lg shadow-[#D4AF37]/20"
+                          : "bg-purple-100 group-hover:bg-purple-500 text-purple-600 group-hover:text-white"
+                      }`}>
+                        <Icon className={`w-5 h-5 ${isHighlight ? "text-slate-900" : ""}`} strokeWidth={2} />
+                      </div>
+                      <div className={`text-sm font-semibold text-center ${isHighlight ? "text-white" : "text-slate-800"}`}>
+                        {industry.name}
+                      </div>
+                      <div className={`text-xs text-center ${isHighlight ? "text-[#D4AF37]" : "text-slate-500"}`}>
+                        {industry.description}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : (
+          <section className={`py-12 sm:py-14 ${isEnterprise ? "bg-white" : "bg-slate-50"}`}>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <motion.div
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className={`text-2xl sm:text-3xl font-bold ${isEnterprise ? "text-slate-900" : "text-slate-900"}`}>
+                  {isEnterprise ? "Trusted by Industry Leaders" : "Perfect For Your Industry"}
+                </h2>
+                <p className={`mt-2 text-sm ${isEnterprise ? "text-slate-500" : "text-slate-500"}`}>
+                  Powering operations across these sectors
+                </p>
+              </motion.div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+                {product.targetIndustries.map((industry, idx) => (
+                  <IndustryCard key={idx} industry={industry} isEnterprise={isEnterprise} index={idx} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FINAL CTA */}
-        <section className={`py-14 sm:py-20 ${
-          isEnterprise
-            ? "bg-gradient-to-b from-slate-950 via-[#0c0a1d] to-slate-950"
-            : "bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600"
-        }`}>
-          {isEnterprise && (
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[100px]" />
+        {isEnterprise && product.slug === "enterprise-os" ? (
+          <section className="relative py-20 sm:py-28 bg-slate-950 overflow-hidden">
+            {/* Sophisticated Background */}
+            <div className="absolute inset-0">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-950/50 via-slate-950 to-slate-950" />
+              <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.8) 1px, transparent 1px)",
+                backgroundSize: "40px 40px",
+              }} />
+              {/* Gold accent lines */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/20 to-transparent" />
             </div>
-          )}
 
-          <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 ${isEnterprise ? "text-white" : "text-white"}`}>
-                {isEnterprise ? "Ready to Architect Your Future?" : "Ready to Get Started?"}
-              </h2>
-              <p className={`text-sm sm:text-base lg:text-lg mb-8 max-w-2xl mx-auto ${isEnterprise ? "text-slate-400" : "text-white/80"}`}>
-                {isEnterprise
-                  ? "Schedule an executive briefing with our solutions architects. Let's discuss how Enterprise OS can transform your operations."
-                  : `Join hundreds of Kenyan businesses using ${product.title}`}
-              </p>
+            {/* Floating Gold Orbs */}
+            <div className="absolute top-20 left-10 w-64 h-64 bg-[#D4AF37]/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <WhatsAppCTA productTitle={product.title} ctaText={product.ctaText} isEnterprise={isEnterprise} />
-                <PhoneCTA text={PHONE_NUMBER} isEnterprise={isEnterprise} />
+            <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                {/* Premium Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 mb-6"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                >
+                  <Crown className="w-4 h-4 text-[#D4AF37]" />
+                  <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">Executive Partnership</span>
+                </motion.div>
+
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+                  <span className="text-white">Ready to </span>
+                  <span className="bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
+                    Architect Your Future?
+                  </span>
+                </h2>
+
+                <p className="text-base sm:text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                  Schedule an <span className="text-white font-medium">executive briefing</span> with our solutions architects.{" "}
+                  Let&apos;s discuss how Enterprise OS can <span className="text-[#D4AF37] font-medium">transform your operations</span>.
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                  <motion.a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello, I am interested in Enterprise OS. Please schedule an executive briefing.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 font-bold text-base rounded-xl overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/30 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
+                      animate={{ translateX: ["-100%", "200%"] }}
+                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                    />
+                    <WhatsAppIcon className="w-5 h-5 relative z-10" />
+                    <span className="relative z-10">Schedule Executive Briefing</span>
+                    <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-0.5 transition-transform" />
+                  </motion.a>
+
+                  <motion.a
+                    href={PHONE_LINK}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-semibold rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Phone className="w-4 h-4" />
+                    Speak to Solutions Architect
+                  </motion.a>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+                  {[
+                    { icon: Shield, label: "NDA Available" },
+                    { icon: FileCheck, label: "Custom Proposal in 48hrs" },
+                    { icon: Award, label: "No Obligation" },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-slate-500">
+                      <item.icon className="w-4 h-4 text-[#D4AF37]" />
+                      <span className="text-sm">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Enterprise Credentials */}
+                <div className="pt-8 border-t border-slate-800">
+                  <p className="text-xs text-slate-500 uppercase tracking-widest mb-4">Trusted by Industry Leaders</p>
+                  <div className="flex flex-wrap items-center justify-center gap-6">
+                    {[
+                      { icon: Factory, label: "Manufacturing" },
+                      { icon: Landmark, label: "Government" },
+                      { icon: Stethoscope, label: "Healthcare" },
+                      { icon: Briefcase, label: "Finance" },
+                      { icon: GraduationCap, label: "Education" },
+                    ].map((sector, idx) => (
+                      <div key={idx} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800">
+                        <sector.icon className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="text-xs text-slate-400">{sector.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        ) : (
+          <section className={`relative py-14 sm:py-20 ${
+            isEnterprise
+              ? "bg-gradient-to-r from-[#7e22ce] via-[#a855f7] to-[#f5f3ff]"
+              : "bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600"
+          }`}>
+            {isEnterprise && (
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 opacity-[0.04]" style={{
+                  backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px)",
+                  backgroundSize: "32px 32px",
+                }} />
               </div>
+            )}
 
-              <p className={`mt-6 text-xs ${isEnterprise ? "text-slate-600" : "text-white/50"}`}>
-                {isEnterprise
-                  ? "NDA available • Custom proposal within 48 hours • No obligation"
-                  : "Free consultation • No commitment • Response within 24 hours"}
-              </p>
-            </motion.div>
-          </div>
-        </section>
+            <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 ${isEnterprise ? "text-white" : "text-white"}`}>
+                  {isEnterprise ? "Ready to Architect Your Future?" : "Ready to Get Started?"}
+                </h2>
+                <p className={`text-sm sm:text-base lg:text-lg mb-8 max-w-2xl mx-auto ${isEnterprise ? "text-purple-100/90" : "text-white/80"}`}>
+                  {isEnterprise
+                    ? "Schedule an executive briefing with our solutions architects. Let's discuss how Enterprise OS can transform your operations."
+                    : `Join hundreds of Kenyan businesses using ${product.title}`}
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <WhatsAppCTA productTitle={product.title} ctaText={product.ctaText} isEnterprise={isEnterprise} />
+                  <PhoneCTA text={PHONE_NUMBER} isEnterprise={isEnterprise} />
+                </div>
+
+                <p className={`mt-6 text-xs ${isEnterprise ? "text-white/60" : "text-white/50"}`}>
+                  {isEnterprise
+                    ? "NDA available • Custom proposal within 48 hours • No obligation"
+                    : "Free consultation • No commitment • Response within 24 hours"}
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        )}
       </main>
     </>
   );
