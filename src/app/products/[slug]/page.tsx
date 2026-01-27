@@ -82,9 +82,9 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
-const WHATSAPP_NUMBER = "254700000000";
-const PHONE_NUMBER = "+254 700 000 000";
-const PHONE_LINK = "tel:+254700000000";
+const WHATSAPP_NUMBER = "254746554150";
+const PHONE_NUMBER = "+254 746554150";
+const PHONE_LINK = "tel:+254746554150";
 
 // ============================================================================
 // ANIMATION VARIANTS
