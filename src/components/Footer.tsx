@@ -74,9 +74,9 @@ export default function Footer() {
                     <Mail className="w-3.5 h-3.5" style={{ color: '#60a5fa' }} />
                     <span>hello@josea.co.ke</span>
                   </a>
-                  <a href="tel:+254700000000" className="inline-flex items-center gap-1.5 text-xs text-white/90 hover:text-white transition-colors">
+                  <a href="tel:+254746554150" className="inline-flex items-center gap-1.5 text-xs text-white/90 hover:text-white transition-colors">
                     <Phone className="w-3.5 h-3.5" style={{ color: '#4ade80' }} />
-                    <span>+254 700 000 000</span>
+                    <span>+254 746554150</span>
                   </a>
                   <span className="inline-flex items-center gap-1.5 text-xs text-white/90">
                     <MapPin className="w-3.5 h-3.5" style={{ color: '#f87171' }} />

@@ -19,7 +19,7 @@ export default function FloatingWhatsAppCTA() {
   const [hasInteracted, setHasInteracted] = useState(false);
 
   // REPLACE WITH YOUR ACTUAL PHONE NUMBER (International format without '+')
-  const phoneNumber = "254700000000";
+  const phoneNumber = "254746554150";
   const message = encodeURIComponent("Hi Josea team, I'm interested in your software solutions.");
 
   // Fast, attention-grabbing animation cycle
