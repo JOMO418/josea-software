@@ -72,7 +72,7 @@ export default function FinalCTASection() {
           {/* Right Side - Primary Action */}
           <div className="flex flex-col items-center lg:items-end w-full lg:w-auto">
             <motion.a
-              href="https://wa.me/254700000000"
+              href="https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I%27m%20interested%20in%20learning%20more%20about%20your%20software%20solutions.%20Could%20you%20share%20more%20information%3F"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}

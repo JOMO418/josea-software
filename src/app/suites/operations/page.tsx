@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, Suspense } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Hexagon,
   Layers,
@@ -15,6 +16,7 @@ import {
   FileCode2,
   Globe2,
   ChevronRight,
+  CheckCircle,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -150,7 +152,11 @@ const HeroSection = () => {
                 </span>
               </motion.button>
             </Link>
-            <Link href="/contact">
+            <a
+              href="https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%27d%20like%20to%20speak%20with%20a%20consultant%20about%20your%20Operations%20Suite%20solutions%20for%20my%20business."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <motion.button
                 className="px-6 py-3 border border-white/25 hover:border-white/40 rounded-full font-medium text-white/90 hover:text-white text-sm transition-all duration-300 backdrop-blur-sm tracking-wide"
                 whileHover={{ scale: 1.02 }}
@@ -158,7 +164,7 @@ const HeroSection = () => {
               >
                 Speak to a Consultant
               </motion.button>
-            </Link>
+            </a>
           </motion.div>
         </motion.div>
       </div>
@@ -174,6 +180,7 @@ const HeroSection = () => {
 // ============================================================================
 
 interface DoorProps {
+  id: string;
   title: string;
   description: string;
   features: string[];
@@ -181,9 +188,11 @@ interface DoorProps {
   variant: "lite" | "pro" | "enterprise";
   badge?: string;
   icon: React.ElementType;
+  isHighlighted?: boolean;
 }
 
 const HolographicDoor = ({
+  id,
   title,
   description,
   features,
@@ -191,6 +200,7 @@ const HolographicDoor = ({
   variant,
   badge,
   icon: Icon,
+  isHighlighted = false,
 }: DoorProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -229,9 +239,15 @@ const HolographicDoor = ({
 
   const style = variants[variant];
 
+  // Highlighted styles override
+  const highlightedStyles = isHighlighted
+    ? "border-green-400 ring-4 ring-green-400/50 animate-pulse-glow"
+    : "";
+
   return (
     <Link href={href}>
       <motion.div
+        id={id}
         className="relative h-full"
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -240,19 +256,39 @@ const HolographicDoor = ({
         viewport={{ once: true, margin: "-30px" }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
       >
+        {/* Highlighted Badge */}
+        {isHighlighted && (
+          <motion.div
+            className="absolute -top-3 left-1/2 -translate-x-1/2 z-30"
+            initial={{ scale: 0, y: 10 }}
+            animate={{ scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+          >
+            <div className="flex items-center gap-1.5 px-4 py-1.5 bg-green-500 rounded-full shadow-lg shadow-green-500/40">
+              <CheckCircle className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+              <span className="text-[10px] font-bold text-white tracking-wider uppercase">
+                Recommended For You
+              </span>
+            </div>
+          </motion.div>
+        )}
+
         <motion.div
           className={`
             relative h-full rounded-2xl overflow-hidden cursor-pointer
-            border ${isHovered ? style.hoverBorder : style.borderColor}
+            border ${isHighlighted ? "border-green-400" : (isHovered ? style.hoverBorder : style.borderColor)}
             ${isHovered ? style.hoverBg : style.cardBg}
+            ${highlightedStyles}
             transition-colors duration-300
           `}
           animate={{
-            boxShadow: isHovered
+            boxShadow: isHighlighted
+              ? `0 0 60px rgba(34, 197, 94, 0.4), 0 0 100px rgba(139, 92, 246, 0.3)`
+              : isHovered
               ? `0 20px 50px -15px rgba(139, 92, 246, 0.25), 0 8px 25px -8px rgba(139, 92, 246, 0.15)`
               : `0 4px 15px -5px rgba(139, 92, 246, 0.1)`,
-            y: isHovered ? -6 : 0,
-            scale: isHovered ? 1.01 : 1,
+            y: isHighlighted ? -8 : isHovered ? -6 : 0,
+            scale: isHighlighted ? 1.03 : isHovered ? 1.01 : 1,
           }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
@@ -353,9 +389,10 @@ const HolographicDoor = ({
   );
 };
 
-const PortalsSection = () => {
-  const doors: DoorProps[] = [
+const PortalsSection = ({ highlightPackage }: { highlightPackage: string | null }) => {
+  const doors: Omit<DoorProps, "isHighlighted">[] = [
     {
+      id: "retail-lite",
       variant: "lite",
       title: "Retail Lite",
       description:
@@ -371,6 +408,7 @@ const PortalsSection = () => {
       icon: Layers,
     },
     {
+      id: "retail-pro",
       variant: "pro",
       title: "Retail Pro",
       description:
@@ -387,6 +425,7 @@ const PortalsSection = () => {
       icon: CircuitBoard,
     },
     {
+      id: "enterprise-os",
       variant: "enterprise",
       title: "Enterprise OS",
       description:
@@ -452,17 +491,21 @@ const PortalsSection = () => {
 
         {/* Doors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-          {doors.map((door, idx) => (
-            <motion.div
-              key={door.variant}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-            >
-              <HolographicDoor {...door} />
-            </motion.div>
-          ))}
+          {doors.map((door, idx) => {
+            const isHighlighted = highlightPackage === door.id;
+            return (
+              <motion.div
+                key={door.variant}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className={isHighlighted ? "lg:scale-105 z-20" : ""}
+              >
+                <HolographicDoor {...door} isHighlighted={isHighlighted} />
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -578,7 +621,11 @@ const WhyUsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          <Link href="/contact">
+          <a
+            href="https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%27d%20like%20to%20schedule%20a%20consultation%20to%20discuss%20how%20your%20Operations%20Suite%20can%20help%20streamline%20my%20business%20operations."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <motion.button
               className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 rounded-full font-medium text-white text-sm shadow-xl shadow-purple-500/25 transition-all duration-300"
               whileHover={{ scale: 1.03, y: -2 }}
@@ -587,12 +634,83 @@ const WhyUsSection = () => {
               <span className="tracking-wide">Schedule a Consultation</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
             </motion.button>
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>
   );
 };
+
+// ============================================================================
+// TOAST NOTIFICATION COMPONENT
+// ============================================================================
+const RecommendationToast = ({ show }: { show: boolean }) => {
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 0, y: -100, x: "-50%" }}
+          animate={{ opacity: 1, y: 0, x: "-50%" }}
+          exit={{ opacity: 0, y: -100, x: "-50%" }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed top-24 left-1/2 z-50 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-green-500/30 flex items-center gap-3 max-w-md"
+        >
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <CheckCircle className="w-6 h-6" strokeWidth={2} />
+          </div>
+          <div>
+            <p className="font-semibold text-sm">Perfect Match Found!</p>
+            <p className="text-white/90 text-xs">
+              This package is recommended for your business.
+            </p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// ============================================================================
+// MAIN PAGE CONTENT (with search params handling)
+// ============================================================================
+function OperationsPageContent() {
+  const searchParams = useSearchParams();
+  const [showNotification, setShowNotification] = useState(false);
+  const [highlightPackage, setHighlightPackage] = useState<string | null>(null);
+
+  // Check for routing params from Industries page
+  useEffect(() => {
+    const highlight = searchParams.get("highlight");
+    const message = searchParams.get("message");
+
+    if (highlight && message === "recommended") {
+      setHighlightPackage(highlight);
+      setShowNotification(true);
+
+      // Scroll to the package after a brief delay
+      setTimeout(() => {
+        const element = document.getElementById(highlight);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 800);
+
+      // Hide notification after 5 seconds
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 5000);
+    }
+  }, [searchParams]);
+
+  return (
+    <>
+      <RecommendationToast show={showNotification} />
+      <HeroSection />
+      <PortalsSection highlightPackage={highlightPackage} />
+      <WhyUsSection />
+    </>
+  );
+}
 
 // ============================================================================
 // MAIN PAGE COMPONENT
@@ -601,9 +719,9 @@ export default function OperationsPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
-      <HeroSection />
-      <PortalsSection />
-      <WhyUsSection />
+      <Suspense fallback={<div className="min-h-screen" />}>
+        <OperationsPageContent />
+      </Suspense>
       <Footer />
     </main>
   );

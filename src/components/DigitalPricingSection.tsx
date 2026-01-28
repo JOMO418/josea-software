@@ -7,7 +7,7 @@ const pricingPlans = [
     id: 'starter-web',
     title: 'Starter Web',
     description: 'Professional online presence to establish credibility.',
-    price: 'KES 15,000',
+    price: 'KES 10,000',
     priceSuffix: 'One-time',
     features: [
       '5-Page Professional Site',
@@ -23,7 +23,7 @@ const pricingPlans = [
     id: 'ecommerce-pro',
     title: 'E-commerce Pro',
     description: 'Full online store to sell products 24/7.',
-    price: 'KES 35,000',
+    price: 'KES 20,000',
     priceSuffix: 'One-time',
     badge: 'SELL ONLINE',
     features: [
@@ -148,9 +148,16 @@ export default function DigitalPricingSection() {
                 </ul>
 
                 {/* CTA Button */}
-                <button
+                <a
+                  href={`https://wa.me/254746554150?text=${encodeURIComponent(
+                    plan.id === 'custom-digital'
+                      ? `Hello Josea Team, I'm interested in discussing a custom digital project. I'd like to schedule a consultation to explore branding and web development options for my business.`
+                      : `Hello Josea Team, I'm interested in the ${plan.title} package (${plan.price}). Please help me get started.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`
-                    w-full py-3 px-6 rounded-xl font-semibold text-center
+                    w-full py-3 px-6 rounded-xl font-semibold text-center block
                     transition-all duration-300 transform hover:scale-[1.02]
                     ${plan.ctaStyle === 'primary'
                       ? 'bg-gradient-to-r from-[#a855f7] to-[#7e22ce] text-white shadow-lg hover:shadow-xl hover:shadow-purple-500/30'
@@ -159,7 +166,7 @@ export default function DigitalPricingSection() {
                   `}
                 >
                   {plan.cta}
-                </button>
+                </a>
               </div>
             </div>
           ))}

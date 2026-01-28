@@ -4,10 +4,16 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
-  UserCheck,
   ArrowRight,
   MessageCircle,
+  Phone,
 } from "lucide-react";
+
+// WhatsApp Business Number
+const WHATSAPP_NUMBER = "254746554150";
+const PHONE_NUMBER = "tel:+254746554150";
+const DEMO_MESSAGE = "Hello Josea Team, I'm interested in scheduling a demo of your business software solutions. Could you please arrange a convenient time for a demonstration? Thank you.";
+const GENERAL_INQUIRY = "Hi Josea Team, I'm interested in learning more about your software solutions. Could you share more information?";
 
 // Typewriter messages - defined outside component to avoid recreating on each render
 const TYPEWRITER_MESSAGES = ["Book a Demo...", "Chat on WhatsApp..."];
@@ -201,8 +207,13 @@ const Hero = () => {
           variants={itemVariants}
           className="mt-8 flex flex-row items-center justify-center gap-3 sm:gap-4"
         >
-          {/* Primary Button - Book a Demo with Shimmer */}
-          <button className="group relative bg-brand-gradient text-white px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden">
+          {/* Primary Button - Book a Demo with Shimmer (WhatsApp) */}
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEMO_MESSAGE)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative bg-brand-gradient text-white px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden"
+          >
             {/* The Shimmer Effect */}
             <div className="absolute inset-0 animate-shimmer pointer-events-none">
               <div
@@ -214,13 +225,16 @@ const Hero = () => {
             </div>
             <span className="relative z-10">Book a Demo</span>
             <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-          </button>
+          </a>
 
-          {/* Secondary Button - Meet an Advisor */}
-          <button className="group backdrop-blur-md bg-white/50 border border-white/60 text-slate-800 px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-sm hover:bg-white hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
-            <UserCheck className="w-5 h-5" />
+          {/* Secondary Button - Meet an Advisor (Phone Call) */}
+          <a
+            href={PHONE_NUMBER}
+            className="group backdrop-blur-md bg-white/50 border border-white/60 text-slate-800 px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-sm hover:bg-white hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <Phone className="w-5 h-5" />
             Meet an Advisor
-          </button>
+          </a>
         </motion.div>
       </motion.div>
 
@@ -246,7 +260,10 @@ const Hero = () => {
           />
 
           {/* ===== FLOATING ACTION BADGE ===== */}
-          <motion.div
+          <motion.a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(GENERAL_INQUIRY)}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="absolute bottom-1 right-1 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl rounded-full py-2 pl-2 pr-4 scale-75 origin-bottom-right sm:scale-100 md:bottom-3 md:right-3 md:py-3 md:pl-3 md:pr-6 md:gap-3 md:shadow-2xl cursor-pointer hover:scale-[0.8] sm:hover:scale-105 transition-transform"
             animate={{
               y: [0, -5, 0],
@@ -272,7 +289,7 @@ const Hero = () => {
               {displayedText}
               <span className="animate-blink">|</span>
             </span>
-          </motion.div>
+          </motion.a>
         </div>
       </motion.div>
     </section>

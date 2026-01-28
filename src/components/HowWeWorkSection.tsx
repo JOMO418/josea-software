@@ -241,7 +241,7 @@ export default function HowWeWorkSection() {
   const isDesktopInView = useInView(desktopRef, { amount: 0.3 });
 
   return (
-    <section className="bg-slate-50 pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+    <section id="how-we-work" className="bg-slate-50 pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <motion.div

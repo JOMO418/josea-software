@@ -387,7 +387,20 @@ function TabletBillboard({
 // WHATSAPP CTA
 // ============================================================================
 function WhatsAppCTA({ productTitle, ctaText, isEnterprise }: { productTitle: string; ctaText: string; isEnterprise?: boolean }) {
-  const message = encodeURIComponent(`Hello, I am interested in ${productTitle}. Please guide me.`);
+  // Different messages based on CTA type
+  const isDemoRequest = ctaText.toLowerCase().includes('briefing') || ctaText.toLowerCase().includes('schedule');
+  const isEngineerRequest = ctaText.toLowerCase().includes('engineer');
+
+  let messageText: string;
+  if (isDemoRequest) {
+    messageText = `Hello Josea Team, I'm interested in scheduling a demo of ${productTitle}. Could you please arrange a convenient time for a demonstration? Thank you.`;
+  } else if (isEngineerRequest) {
+    messageText = `Hello Josea Team, I'd like to speak with an engineer about ${productTitle}. Could you connect me with your technical team? Thank you.`;
+  } else {
+    messageText = `Hi Josea Team, I'm interested in ${productTitle}. Could you share more information about how it can help my business?`;
+  }
+
+  const message = encodeURIComponent(messageText);
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 
   return (
@@ -1159,7 +1172,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 {/* CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                   <motion.a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello, I am interested in Enterprise OS. Please schedule an executive briefing.`)}`}
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Josea Team, I'm interested in scheduling an executive briefing for Enterprise OS. Could you please arrange a convenient time for a demonstration? Thank you.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 font-bold text-base rounded-xl overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/30 transition-all"
@@ -1254,7 +1267,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <WhatsAppCTA productTitle={product.title} ctaText={product.ctaText} isEnterprise={isEnterprise} />
-                  <PhoneCTA text={PHONE_NUMBER} isEnterprise={isEnterprise} />
+                  <PhoneCTA text={product.secondaryCtaText} isEnterprise={isEnterprise} />
                 </div>
 
                 <p className={`mt-6 text-xs ${isEnterprise ? "text-white/60" : "text-white/50"}`}>

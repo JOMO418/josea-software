@@ -159,14 +159,25 @@ function PricingCard({ tier }: { tier: PricingTier }) {
       </div>
 
       {/* CTA Button */}
-      <button className={buttonStyles}>{tier.ctaText}</button>
+      <a
+        href={`https://wa.me/254746554150?text=${encodeURIComponent(
+          tier.isEnterprise
+            ? `Hello Josea Team, I'm interested in discussing the Enterprise OS solution for my business. I'd like to schedule a consultation to explore how it can be customized for our operations.`
+            : `Hello Josea Team, I'm interested in the ${tier.name} package (${tier.price}). Please help me get started with the setup process.`
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={buttonStyles}
+      >
+        {tier.ctaText}
+      </a>
     </div>
   );
 }
 
 export default function PricingSection() {
   return (
-    <section className="bg-gradient-to-r from-[#7e22ce] via-[#a855f7] to-[#f5f3ff] py-24 sm:py-32">
+    <section id="pricing" className="bg-gradient-to-r from-[#7e22ce] via-[#a855f7] to-[#f5f3ff] py-24 sm:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
