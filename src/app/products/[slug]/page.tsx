@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Phone,
   Shield,
@@ -61,6 +62,8 @@ import {
   Smartphone,
   Palette,
   Infinity as InfinityIcon,
+  Calendar,
+  Sparkles,
 } from "lucide-react";
 
 // ============================================================================
@@ -384,6 +387,177 @@ function TabletBillboard({
 }
 
 // ============================================================================
+// RETAIL PRO MEDIA CAROUSEL - Video + Image
+// ============================================================================
+function RetailProMediaCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => {
+        const next = (prev + 1) % 2;
+        setIsVideoPlaying(next === 0);
+        return next;
+      });
+    }, 8000); // 8 seconds per slide
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      className="relative w-full max-w-2xl mx-auto"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      {/* Premium glow */}
+      <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-violet-500/20 to-indigo-500/20 rounded-3xl blur-2xl" />
+
+      {/* Main visual container */}
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/30 border border-purple-200/50 bg-slate-900">
+        <AnimatePresence mode="wait">
+          {currentIndex === 0 ? (
+            <motion.div
+              key="video"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative aspect-video w-full"
+            >
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              >
+                <source src="/billboard.mp4" type="video/mp4" />
+              </video>
+              {/* Video label */}
+              <div className="absolute top-4 left-4 px-3 py-1.5 bg-purple-600/90 backdrop-blur-sm rounded-full">
+                <span className="text-[10px] font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                  Live Demo
+                </span>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="image"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative aspect-video w-full bg-gradient-to-br from-slate-50 to-slate-100"
+            >
+              <Image
+                src="/hero-devices.png"
+                alt="Retail Pro on multiple devices"
+                fill
+                className="object-contain p-6"
+                sizes="(max-width: 768px) 100vw, 672px"
+              />
+              {/* Image label */}
+              <div className="absolute top-4 left-4 px-3 py-1.5 bg-violet-600/90 backdrop-blur-sm rounded-full">
+                <span className="text-[10px] font-semibold text-white uppercase tracking-wider">
+                  Multi-Device
+                </span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Carousel indicators */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          {[0, 1].map((idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setCurrentIndex(idx);
+                setIsVideoPlaying(idx === 0);
+              }}
+              className={`transition-all duration-300 rounded-full ${
+                idx === currentIndex
+                  ? "w-8 h-2 bg-white"
+                  : "w-2 h-2 bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Feature badges below */}
+      <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
+        <div className="px-3 py-1.5 bg-white rounded-full border border-purple-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">AI-Powered Insights</span>
+        </div>
+        <div className="px-3 py-1.5 bg-white rounded-full border border-purple-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">Multi-Branch Ready</span>
+        </div>
+        <div className="px-3 py-1.5 bg-white rounded-full border border-purple-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">M-Pesa Integration</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// RETAIL LITE DEVICE VISUAL - Single Image
+// ============================================================================
+function RetailLiteDeviceVisual() {
+  return (
+    <motion.div
+      className="relative w-full max-w-xl mx-auto"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+    >
+      {/* Premium glow */}
+      <div className="absolute -inset-4 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-indigo-500/20 rounded-3xl blur-2xl" />
+
+      {/* Main visual container */}
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/30 border border-violet-200/50 bg-gradient-to-br from-slate-50 via-white to-slate-50">
+        <div className="relative aspect-[4/3] w-full">
+          <Image
+            src="/hero-devices.png"
+            alt="Retail Lite on multiple devices"
+            fill
+            className="object-contain p-8"
+            sizes="(max-width: 768px) 100vw, 576px"
+            priority
+          />
+        </div>
+
+        {/* Floating badge */}
+        <div className="absolute top-4 right-4 px-3 py-1.5 bg-violet-600/95 backdrop-blur-sm rounded-full shadow-lg">
+          <span className="text-[10px] font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
+            <Smartphone className="w-3 h-3" />
+            Cross-Platform
+          </span>
+        </div>
+      </div>
+
+      {/* Feature badges below */}
+      <div className="mt-4 flex items-center justify-center gap-2 flex-wrap">
+        <div className="px-3 py-1.5 bg-white rounded-full border border-violet-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">Smart POS</span>
+        </div>
+        <div className="px-3 py-1.5 bg-white rounded-full border border-violet-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">Offline-Ready</span>
+        </div>
+        <div className="px-3 py-1.5 bg-white rounded-full border border-violet-100 shadow-sm">
+          <span className="text-xs text-slate-700 font-medium">One-Time Payment</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================================================
 // WHATSAPP CTA
 // ============================================================================
 function WhatsAppCTA({ productTitle, ctaText, isEnterprise }: { productTitle: string; ctaText: string; isEnterprise?: boolean }) {
@@ -454,24 +628,52 @@ function FeatureItem({ feature, isEnterprise, index }: { feature: ProductFeature
 
   return (
     <motion.div
-      className={`flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all ${
-        isEnterprise
-          ? "bg-white/70 hover:bg-white border border-purple-100 hover:border-purple-300"
-          : "bg-white/60 hover:bg-white border border-slate-100 hover:border-purple-200"
+      className={`group relative flex items-start gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
+        feature.highlight
+          ? "bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 border-2 border-violet-300 shadow-sm hover:shadow-md hover:shadow-violet-200/50"
+          : "bg-white hover:bg-slate-50 border border-slate-200 hover:border-violet-200 shadow-sm hover:shadow-md"
       }`}
-      initial={{ opacity: 0, x: -8 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.02 }}
+      transition={{ delay: index * 0.03, duration: 0.4 }}
+      whileHover={{ y: -2 }}
     >
-      {feature.highlight ? (
-        <BadgeCheck className={`w-4 h-4 flex-shrink-0 ${isEnterprise ? "text-purple-600" : "text-purple-600"}`} />
-      ) : (
-        <Icon className={`w-4 h-4 flex-shrink-0 ${isEnterprise ? "text-slate-500" : "text-slate-400"}`} />
+      {/* Icon with gradient background */}
+      <div
+        className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
+          feature.highlight
+            ? "bg-gradient-to-br from-violet-500 to-purple-600 shadow-md shadow-purple-300/50"
+            : "bg-gradient-to-br from-slate-100 to-slate-200 group-hover:from-violet-100 group-hover:to-purple-100"
+        }`}
+      >
+        {feature.highlight ? (
+          <BadgeCheck className="w-5 h-5 text-white" strokeWidth={2} />
+        ) : (
+          <Icon className="w-4.5 h-4.5 text-slate-600 group-hover:text-violet-600 transition-colors" strokeWidth={1.5} />
+        )}
+      </div>
+
+      {/* Text */}
+      <div className="flex-1 pt-0.5">
+        <span
+          className={`text-sm leading-snug block ${
+            feature.highlight ? "font-semibold text-slate-900" : "font-medium text-slate-700"
+          }`}
+          style={feature.highlight ? { fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" } : {}}
+        >
+          {feature.text}
+        </span>
+      </div>
+
+      {/* Highlight badge for premium features */}
+      {feature.highlight && (
+        <div className="absolute -top-1.5 -right-1.5">
+          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-md">
+            <Sparkles className="w-3 h-3 text-white" strokeWidth={2.5} />
+          </div>
+        </div>
       )}
-      <span className={`text-[13px] leading-tight ${feature.highlight ? "font-semibold" : "font-medium"} ${isEnterprise ? "text-slate-700" : "text-slate-700"}`}>
-        {feature.text}
-      </span>
     </motion.div>
   );
 }
@@ -580,15 +782,18 @@ function EnterpriseFeaturesPillars() {
           viewport={{ once: true }}
         >
           <InfinityIcon className="w-4 h-4 text-[#D4AF37]" />
-          <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">Boundless Platform</span>
+          <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">Enterprise Platform</span>
         </motion.div>
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
-          <span className="text-slate-900">Limitless </span>
-          <span className="bg-gradient-to-r from-[#D4AF37] via-[#B8962E] to-[#D4AF37] bg-clip-text text-transparent">Capabilities</span>
+        <h2
+          className="text-2xl sm:text-3xl lg:text-4xl font-bold"
+          style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+        >
+          <span className="text-slate-900">Complete </span>
+          <span className="bg-gradient-to-r from-[#D4AF37] via-[#B8962E] to-[#D4AF37] bg-clip-text text-transparent">Feature Set</span>
         </h2>
-        <p className="mt-3 text-sm sm:text-base text-slate-500 max-w-xl mx-auto">
-          Every feature your enterprise demands, meticulously engineered for{" "}
-          <span className="text-slate-700 font-medium">mission-critical operations</span>
+        <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
+          48 enterprise capabilities organized across infrastructure, security, intelligence, and integration domains.{" "}
+          <span className="text-slate-800 font-medium">Unlimited users, unlimited scale, unlimited growth.</span>
         </p>
       </div>
 
@@ -725,34 +930,78 @@ function EnterpriseFeaturesPillars() {
         )}
       </AnimatePresence>
 
-      {/* Operations & Support Bar - Compact */}
+      {/* Enterprise Services & Support */}
       <motion.div
-        className="mt-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-xl p-4 sm:p-6 border border-slate-700"
+        className="mt-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-xl border border-slate-700 overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.4 }}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h3 className="text-base sm:text-lg font-bold text-white">Operations & Support Excellence</h3>
-            <p className="text-xs sm:text-sm text-slate-400">White-glove service for mission-critical deployments</p>
+        {/* Support SLAs */}
+        <div className="p-5 border-b border-slate-800">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Headphones className="w-4 h-4 text-[#D4AF37]" />
+                <h3 className="text-sm font-bold text-white">Enterprise Support SLAs</h3>
+              </div>
+              <p className="text-xs text-slate-400">
+                24/7/365 engineering support with dedicated account manager and quarterly business reviews
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-center">
+                <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-0.5">Critical</div>
+                <div className="text-sm font-bold text-[#D4AF37]">&lt;4hrs</div>
+              </div>
+              <div className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-center">
+                <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-0.5">Standard</div>
+                <div className="text-sm font-bold text-white">&lt;24hrs</div>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { icon: Headphones, label: "24/7 Support" },
-              { icon: Award, label: "Dedicated Manager" },
-              { icon: Smartphone, label: "Mobile Apps" },
-              { icon: Palette, label: "White-Label" },
-            ].map((item, idx) => {
-              const ItemIcon = item.icon;
-              return (
-                <div key={idx} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10">
-                  <ItemIcon className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span className="text-[10px] sm:text-xs font-medium text-white">{item.label}</span>
-                </div>
-              );
-            })}
+        </div>
+
+        {/* Additional Services */}
+        <div className="p-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                <Award className="w-4 h-4 text-[#D4AF37]" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-white">Dedicated CSM</div>
+                <div className="text-[10px] text-slate-400">Account Manager</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                <Smartphone className="w-4 h-4 text-[#D4AF37]" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-white">Mobile Apps</div>
+                <div className="text-[10px] text-slate-400">iOS & Android</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                <Palette className="w-4 h-4 text-[#D4AF37]" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-white">White-Label</div>
+                <div className="text-[10px] text-slate-400">Full Branding</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0">
+                <GraduationCap className="w-4 h-4 text-[#D4AF37]" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-white">Training</div>
+                <div className="text-[10px] text-slate-400">On-site Available</div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -816,25 +1065,21 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
       <Navbar />
       <main className="min-h-screen">
         {/* HERO */}
-        <section className={`relative overflow-hidden pt-28 pb-12 sm:pt-32 sm:pb-16 ${
+        <section className={`relative overflow-hidden pt-24 pb-10 sm:pt-28 sm:pb-12 ${
           isEnterprise && product.slug === "enterprise-os"
-            ? "bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900"
+            ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"
             : isEnterprise
             ? "bg-gradient-to-r from-[#7e22ce] via-[#a855f7] to-[#f5f3ff]"
             : "bg-gradient-to-br from-slate-50 via-purple-50/40 to-indigo-50/40"
         }`}>
           {isEnterprise && product.slug === "enterprise-os" ? (
             <>
-              {/* Premium Enterprise Background */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,80,180,0.3),transparent)]" />
-              <div className="absolute inset-0 opacity-[0.015]" style={{
-                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.8) 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
+              {/* Minimal Professional Background */}
+              <div className="absolute inset-0 opacity-[0.02]" style={{
+                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.5) 1px, transparent 1px)",
+                backgroundSize: "50px 50px",
               }} />
-              {/* Gold accent lines */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
-              <div className="absolute top-20 left-10 w-72 h-72 bg-[#D4AF37]/5 rounded-full blur-3xl" />
-              <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
             </>
           ) : isEnterprise ? (
             <>
@@ -847,158 +1092,591 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             <div className="absolute top-[-5%] left-0 right-0 h-[300px] bg-gradient-to-b from-purple-500/10 to-transparent blur-[50px]" />
           )}
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-            <motion.div
-              className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {/* Content */}
-              <div className="text-center lg:text-left">
-                <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-2 mb-4">
-                  {product.badge && (
-                    <span className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest ${
-                      isEnterprise && product.slug === "enterprise-os"
-                        ? "bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-yellow-500/20 border border-[#D4AF37]/30"
-                        : isEnterprise
-                        ? "bg-white/90 text-purple-700 border border-white/50 shadow-sm"
-                        : product.badge === "POPULAR"
-                        ? "bg-purple-600 text-white"
-                        : "bg-purple-100 text-purple-700 border border-purple-200"
-                    }`}>
-                      {product.badge === "POPULAR" && <Crown className="w-3 h-3" />}
-                      {product.badge === "ENTERPRISE" && <Crown className="w-3.5 h-3.5 text-slate-800" />}
-                      {product.badge}
-                    </span>
-                  )}
-                  <span className={`text-[10px] font-semibold tracking-wider uppercase ${isEnterprise ? "text-white/70" : "text-slate-500"}`}>
-                    {product.category === "operations" ? "Operations Suite" : "Digital Suite"}
+          <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+            {isEnterprise && product.slug === "enterprise-os" ? (
+              <motion.div
+                className="text-center"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Badge */}
+                <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 mb-5">
+                  <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-yellow-500/20 border border-[#D4AF37]/30">
+                    <Crown className="w-3.5 h-3.5 text-slate-800" />
+                    {product.badge}
                   </span>
                 </motion.div>
 
-                {/* Enterprise Hero with Visual Hierarchy */}
-                {isEnterprise && product.slug === "enterprise-os" ? (
-                  <>
-                    <motion.h1 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight">
-                      <span className="bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent">
-                        {product.title}
-                      </span>
-                    </motion.h1>
+                {/* Title */}
+                <motion.h1
+                  variants={itemVariants}
+                  className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                >
+                  <span className="text-white">{product.title}</span>
+                </motion.h1>
 
-                    <motion.p variants={itemVariants} className="mt-3 text-xl sm:text-2xl lg:text-3xl font-semibold">
-                      <span className="bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
-                        {product.tagline}
-                      </span>
-                    </motion.p>
+                {/* Tagline */}
+                <motion.p
+                  variants={itemVariants}
+                  className="mt-3 text-lg sm:text-xl font-medium text-[#D4AF37]"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                >
+                  {product.tagline}
+                </motion.p>
 
-                    <motion.div variants={itemVariants} className="mt-6 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
-                      <p className="text-white/60">
-                        When <span className="text-white font-medium">off-the-shelf software</span> cannot meet your{" "}
-                        <span className="text-[#D4AF37] font-semibold">operational complexity</span>, we architect and build{" "}
-                        <span className="text-white font-medium">bespoke systems</span> from the ground up.
-                      </p>
-                      <p className="mt-3 text-white/60">
-                        Enterprise OS delivers <span className="text-white font-medium">custom workflow engines</span>,{" "}
-                        <span className="text-white font-medium">real-time analytics</span>, and{" "}
-                        <span className="text-white font-medium">seamless integrations</span>—all secured with{" "}
-                        <span className="text-[#D4AF37] font-semibold">bank-grade encryption</span> and backed by{" "}
-                        <span className="text-[#D4AF37] font-semibold">99.99% uptime SLA</span>.
-                      </p>
-                    </motion.div>
-                  </>
-                ) : (
-                  <>
-                    <motion.h1 variants={itemVariants} className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                      {product.title}
-                    </motion.h1>
+                {/* Core Value Proposition - Compact */}
+                <motion.p
+                  variants={itemVariants}
+                  className="mt-5 text-sm sm:text-base text-slate-400 max-w-3xl mx-auto leading-relaxed"
+                >
+                  Bespoke enterprise systems engineered for organizations requiring{" "}
+                  <span className="text-white font-medium">deep customization beyond standard ERP platforms</span>.{" "}
+                  Built on cloud-native architecture with{" "}
+                  <span className="text-[#D4AF37] font-medium">bank-grade security</span> and{" "}
+                  <span className="text-[#D4AF37] font-medium">99.99% uptime guarantee</span>.
+                </motion.p>
 
-                    <motion.p variants={itemVariants} className={`mt-2 text-lg sm:text-xl lg:text-2xl font-medium ${
-                      isEnterprise ? "text-white/90" : "text-purple-600"
-                    }`}>
-                      {product.tagline}
-                    </motion.p>
-
-                    <motion.p variants={itemVariants} className={`mt-5 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 ${isEnterprise ? "text-purple-100/90" : "text-slate-600"}`}>
-                      {product.description}
-                    </motion.p>
-                  </>
-                )}
-
-                <motion.div variants={itemVariants} className="mt-6">
-                  {isEnterprise && product.slug === "enterprise-os" ? (
-                    <div className="flex items-baseline gap-3 justify-center lg:justify-start">
-                      <span className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
-                        {product.price}
-                      </span>
-                      {product.priceSubtext && (
-                        <span className="text-sm text-white/50">
-                          {product.priceSubtext}
-                        </span>
-                      )}
+                {/* Technical Credentials - Clean Grid */}
+                <motion.div
+                  variants={itemVariants}
+                  className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto"
+                >
+                  <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-3 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <Shield className="w-4 h-4 text-[#D4AF37]" />
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">Security</span>
                     </div>
-                  ) : (
-                    <>
-                      <span className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
-                        {product.price}
-                      </span>
-                      {product.priceSubtext && (
-                        <span className={`block sm:inline sm:ml-3 mt-1 sm:mt-0 text-sm ${isEnterprise ? "text-purple-100/70" : "text-slate-500"}`}>
-                          {product.priceSubtext}
-                        </span>
-                      )}
-                    </>
-                  )}
+                    <p className="text-[10px] text-slate-400">SOC 2 Type II</p>
+                    <p className="text-[10px] text-slate-400">AES-256</p>
+                  </div>
+
+                  <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-3 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <Activity className="w-4 h-4 text-[#D4AF37]" />
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">Reliability</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400">99.99% Uptime</p>
+                    <p className="text-[10px] text-slate-400">Multi-Region</p>
+                  </div>
+
+                  <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-3 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <Network className="w-4 h-4 text-[#D4AF37]" />
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">Integration</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400">REST/GraphQL</p>
+                    <p className="text-[10px] text-slate-400">ERP Connectors</p>
+                  </div>
+
+                  <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-lg p-3 text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <InfinityIcon className="w-4 h-4 text-[#D4AF37]" />
+                      <span className="text-xs font-bold text-white uppercase tracking-wider">Scale</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400">Unlimited Users</p>
+                    <p className="text-[10px] text-slate-400">Auto-Scaling</p>
+                  </div>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                {/* Pricing */}
+                <motion.div variants={itemVariants} className="mt-6">
+                  <div className="inline-flex flex-col items-center gap-2 px-5 py-3 rounded-xl bg-slate-900/50 border border-slate-800">
+                    <div className="flex items-baseline gap-2">
+                      <span
+                        className="text-xl sm:text-2xl font-bold text-white"
+                        style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                      >
+                        {product.price}
+                      </span>
+                    </div>
+                    {product.priceSubtext && (
+                      <span className="text-xs text-slate-500">{product.priceSubtext}</span>
+                    )}
+                    <div className="flex items-center gap-4 mt-1 pt-2 border-t border-slate-800">
+                      <div className="flex items-center gap-1.5">
+                        <Banknote className="w-3 h-3 text-[#D4AF37]" />
+                        <span className="text-[10px] text-slate-400">Flexible Payment Terms</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <FileCheck className="w-3 h-3 text-[#D4AF37]" />
+                        <span className="text-[10px] text-slate-400">ROI Analysis Included</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* CTAs */}
+                <motion.div variants={itemVariants} className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
                   <WhatsAppCTA productTitle={product.title} ctaText={product.ctaText} isEnterprise={isEnterprise} />
                   <PhoneCTA text={product.secondaryCtaText} isEnterprise={isEnterprise} />
                 </motion.div>
 
-                {/* Enterprise Trust Badges with Gold Accents */}
-                {isEnterprise && product.slug === "enterprise-os" && (
-                  <motion.div variants={itemVariants} className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                    {[
-                      { icon: Shield, label: "SOC 2 Compliant", gold: true },
-                      { icon: Lock, label: "AES-256 Encryption", gold: true },
-                      { icon: Activity, label: "99.99% Uptime", gold: false },
-                      { icon: Headphones, label: "24/7 Support", gold: false },
-                    ].map((badge, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-sm border ${
-                          badge.gold
-                            ? "bg-[#D4AF37]/20 border-[#D4AF37]/40"
-                            : "bg-white/10 border-white/20"
-                        }`}
-                      >
-                        <badge.icon className={`w-3.5 h-3.5 ${badge.gold ? "text-[#D4AF37]" : "text-white"}`} />
-                        <span className={`text-xs font-medium ${badge.gold ? "text-[#D4AF37]" : "text-white/90"}`}>{badge.label}</span>
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </div>
-
-              {/* Visual */}
-              <motion.div variants={itemVariants}>
-                {isEnterprise && product.slug === "enterprise-os" ? (
-                  <EnterpriseDashboardPreview />
-                ) : isEnterprise ? (
-                  <TabletBillboard screens={product.carouselScreens} isEnterprise={true} />
-                ) : (
-                  <TabletBillboard screens={product.carouselScreens} isEnterprise={false} />
-                )}
+                {/* Support Badge */}
+                <motion.div variants={itemVariants} className="mt-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                    <Headphones className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span className="text-xs text-slate-400">24/7 Engineering Support • &lt;4hr Critical Response SLA</span>
+                  </div>
+                </motion.div>
               </motion.div>
-            </motion.div>
+            ) : (
+              <motion.div
+                className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Content */}
+                <div className="text-center lg:text-left">
+                  <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-2 mb-4">
+                    {product.badge && (
+                      <span className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest ${
+                        isEnterprise
+                          ? "bg-white/90 text-purple-700 border border-white/50 shadow-sm"
+                          : product.badge === "POPULAR"
+                          ? "bg-purple-600 text-white"
+                          : "bg-purple-100 text-purple-700 border border-purple-200"
+                      }`}>
+                        {product.badge === "POPULAR" && <Crown className="w-3 h-3" />}
+                        {product.badge}
+                      </span>
+                    )}
+                    <span className={`text-[10px] font-semibold tracking-wider uppercase ${isEnterprise ? "text-white/70" : "text-slate-500"}`}>
+                      {product.category === "operations" ? "Operations Suite" : "Digital Suite"}
+                    </span>
+                  </motion.div>
+
+                  <motion.h1 variants={itemVariants} className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight ${isEnterprise ? "text-white" : "text-slate-900"}`}>
+                    {product.title}
+                  </motion.h1>
+
+                  <motion.p variants={itemVariants} className={`mt-2 text-lg sm:text-xl lg:text-2xl font-medium ${
+                    isEnterprise ? "text-white/90" : "text-purple-600"
+                  }`}>
+                    {product.tagline}
+                  </motion.p>
+
+                  <motion.p variants={itemVariants} className={`mt-5 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 ${isEnterprise ? "text-purple-100/90" : "text-slate-600"}`}>
+                    {product.description}
+                  </motion.p>
+
+                  <motion.div variants={itemVariants} className="mt-6">
+                    <span className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${isEnterprise ? "text-white" : "text-slate-900"}`}>
+                      {product.price}
+                    </span>
+                    {product.priceSubtext && (
+                      <span className={`block sm:inline sm:ml-3 mt-1 sm:mt-0 text-sm ${isEnterprise ? "text-purple-100/70" : "text-slate-500"}`}>
+                        {product.priceSubtext}
+                      </span>
+                    )}
+                  </motion.div>
+
+                  <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start flex-wrap">
+                    {/* Book a Demo CTA - Primary for Retail products */}
+                    {(product.slug === "retail-lite" || product.slug === "retail-pro") && (
+                      <motion.a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                          `Hello Josea Team, I'd like to schedule a live demo of ${product.title}. Could you please arrange a demonstration at your earliest convenience? Thank you.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group relative inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-bold rounded-full transition-all bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white shadow-xl shadow-purple-500/30"
+                        whileHover={{ scale: 1.02, y: -1 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Calendar className="w-4 h-4" />
+                        <span>Book a Demo</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </motion.a>
+                    )}
+                    <WhatsAppCTA productTitle={product.title} ctaText={product.ctaText} isEnterprise={isEnterprise} />
+                    <PhoneCTA text={product.secondaryCtaText} isEnterprise={isEnterprise} />
+                  </motion.div>
+                </div>
+
+                {/* Visual */}
+                <motion.div variants={itemVariants}>
+                  {isEnterprise ? (
+                    <TabletBillboard screens={product.carouselScreens} isEnterprise={true} />
+                  ) : product.slug === "retail-pro" ? (
+                    <RetailProMediaCarousel />
+                  ) : product.slug === "retail-lite" ? (
+                    <RetailLiteDeviceVisual />
+                  ) : (
+                    <TabletBillboard screens={product.carouselScreens} isEnterprise={false} />
+                  )}
+                </motion.div>
+              </motion.div>
+            )}
           </div>
         </section>
+
+        {/* TECHNICAL SPECIFICATIONS - Enterprise OS Only */}
+        {isEnterprise && product.slug === "enterprise-os" && (
+          <section className="py-10 sm:py-12 bg-white border-b border-slate-200">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <motion.div
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-3">
+                  <Server className="w-3.5 h-3.5 text-slate-600" />
+                  <span className="text-[10px] font-semibold tracking-wider text-slate-600 uppercase">Technical Foundation</span>
+                </div>
+                <h2
+                  className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-800"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                >
+                  Platform <span className="text-purple-700">Specifications</span>
+                </h2>
+              </motion.div>
+
+              {/* Specifications Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Architecture */}
+                <motion.div
+                  className="bg-slate-50 rounded-xl p-5 border border-slate-200"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <Layers className="w-4 h-4 text-purple-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Architecture</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-600 mt-0.5">•</span>
+                      <span>Containerized microservices (Docker/Kubernetes)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-600 mt-0.5">•</span>
+                      <span>PostgreSQL primary, MongoDB for unstructured data</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-600 mt-0.5">•</span>
+                      <span>Redis caching layer with automatic failover</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-600 mt-0.5">•</span>
+                      <span>Event-driven architecture (RabbitMQ/Kafka)</span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                {/* Performance */}
+                <motion.div
+                  className="bg-slate-50 rounded-xl p-5 border border-slate-200"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                      <Gauge className="w-4 h-4 text-emerald-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Performance</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-600 mt-0.5">•</span>
+                      <span>99.99% uptime SLA (52 min annual downtime)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-600 mt-0.5">•</span>
+                      <span>API response time &lt;200ms (p95)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-600 mt-0.5">•</span>
+                      <span>Horizontal auto-scaling to 10,000+ concurrent users</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-emerald-600 mt-0.5">•</span>
+                      <span>Multi-region geo-redundant deployment</span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                {/* Security & Compliance */}
+                <motion.div
+                  className="bg-slate-50 rounded-xl p-5 border border-slate-200"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-[#D4AF37]/20 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4 text-[#B8962E]" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Security</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B8962E] mt-0.5">•</span>
+                      <span>AES-256 encryption (data at rest & in transit)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B8962E] mt-0.5">•</span>
+                      <span>SOC 2 Type II certified infrastructure</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B8962E] mt-0.5">•</span>
+                      <span>GDPR & data protection compliance ready</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B8962E] mt-0.5">•</span>
+                      <span>Annual penetration testing & vulnerability scans</span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                {/* Deployment & Support */}
+                <motion.div
+                  className="bg-slate-50 rounded-xl p-5 border border-slate-200"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <Cloud className="w-4 h-4 text-blue-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Deployment</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600 mt-0.5">•</span>
+                      <span>Cloud (AWS/Azure/GCP) or on-premise options</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600 mt-0.5">•</span>
+                      <span>Dedicated engineer during deployment (4-8 weeks)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600 mt-0.5">•</span>
+                      <span>24/7 support with &lt;4hr critical response SLA</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600 mt-0.5">•</span>
+                      <span>Dedicated account manager & quarterly reviews</span>
+                    </li>
+                  </ul>
+                </motion.div>
+              </div>
+
+              {/* Integration & Technology Stack */}
+              <motion.div
+                className="mt-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-xl border border-slate-700 overflow-hidden"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                {/* Integration Layer */}
+                <div className="p-5 border-b border-slate-800">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Network className="w-4 h-4 text-[#D4AF37]" />
+                        <h3 className="text-sm font-bold text-white">Enterprise Integration Layer</h3>
+                      </div>
+                      <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+                        Production-grade API endpoints with OpenAPI/Swagger documentation. Pre-built connectors for SAP, Oracle EBS, Salesforce, Microsoft Dynamics, QuickBooks, Xero. SSO/LDAP/Active Directory integration. Custom API development and dedicated integration support included.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-medium text-white whitespace-nowrap">REST API</span>
+                      <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-medium text-white whitespace-nowrap">GraphQL</span>
+                      <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-medium text-white whitespace-nowrap">Webhooks</span>
+                      <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[10px] font-medium text-white whitespace-nowrap">OAuth 2.0</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Technology Stack */}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Cpu className="w-4 h-4 text-[#D4AF37]" />
+                    <h3 className="text-sm font-bold text-white">Technology Stack</h3>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Backend</p>
+                      <div className="space-y-1">
+                        <div className="text-xs text-slate-300">Node.js / Python</div>
+                        <div className="text-xs text-slate-300">Microservices (Docker)</div>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Database</p>
+                      <div className="space-y-1">
+                        <div className="text-xs text-slate-300">PostgreSQL 15+</div>
+                        <div className="text-xs text-slate-300">MongoDB / Redis</div>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Infrastructure</p>
+                      <div className="space-y-1">
+                        <div className="text-xs text-slate-300">Kubernetes</div>
+                        <div className="text-xs text-slate-300">AWS / Azure / GCP</div>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">Monitoring</p>
+                      <div className="space-y-1">
+                        <div className="text-xs text-slate-300">Prometheus / Grafana</div>
+                        <div className="text-xs text-slate-300">ELK Stack Logging</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        )}
+
+        {/* ENTERPRISE SUMMARY - What's Included */}
+        {isEnterprise && product.slug === "enterprise-os" && (
+          <section className="py-10 sm:py-12 bg-gradient-to-b from-slate-50 to-white">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <motion.div
+                className="text-center mb-6"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2
+                  className="text-xl sm:text-2xl font-semibold text-slate-800 mb-2"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                >
+                  Enterprise OS <span className="text-purple-700">Includes</span>
+                </h2>
+                <p className="text-sm text-slate-600">
+                  Comprehensive platform with unlimited scale, dedicated support, and full customization
+                </p>
+              </motion.div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Core Platform */}
+                <motion.div
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <Server className="w-4 h-4 text-purple-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Core Platform</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Unlimited users, branches, transactions</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Custom workflow engines & automation</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Full source code access & documentation</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Cloud or on-premise deployment</span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                {/* AI & Analytics */}
+                <motion.div
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <Cpu className="w-4 h-4 text-blue-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">AI & Analytics</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Complete Josea AI suite included</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Real-time BI dashboards & reporting</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Predictive analytics & ML models</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Custom KPI tracking & alerts</span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                {/* Enterprise Support */}
+                <motion.div
+                  className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                      <Headphones className="w-4 h-4 text-emerald-700" />
+                    </div>
+                    <h3 className="text-sm font-bold text-slate-800">Enterprise Support</h3>
+                  </div>
+                  <ul className="space-y-2 text-xs text-slate-600">
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>24/7/365 engineering support</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Dedicated account manager</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Priority bug fixes & feature requests</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <BadgeCheck className="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5" />
+                      <span>Quarterly business reviews & planning</span>
+                    </li>
+                  </ul>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FEATURES */}
         <section className={`py-12 sm:py-16 ${
           isEnterprise && product.slug === "enterprise-os"
-            ? "bg-gradient-to-b from-white via-slate-50 to-white"
+            ? "bg-white"
             : isEnterprise
             ? "bg-slate-50"
             : "bg-white"
@@ -1032,66 +1710,94 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
         {/* INDUSTRIES */}
         {isEnterprise && product.slug === "enterprise-os" ? (
-          <section className="py-16 sm:py-20 bg-gradient-to-b from-slate-50 to-white">
+          <section className="py-12 sm:py-14 bg-white border-y border-slate-200">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
               <motion.div
-                className="text-center mb-12"
+                className="text-center mb-8"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <motion.div
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 border border-slate-700 mb-4"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-3">
+                  <Building2 className="w-3.5 h-3.5 text-slate-600" />
+                  <span className="text-[10px] font-semibold tracking-wider text-slate-600 uppercase">Deployed Across Sectors</span>
+                </div>
+                <h2
+                  className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-800 mb-2"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
                 >
-                  <Building2 className="w-4 h-4 text-[#D4AF37]" />
-                  <span className="text-xs font-bold tracking-widest text-white uppercase">Enterprise Sectors</span>
-                </motion.div>
-                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-                  Trusted by <span className="bg-gradient-to-r from-[#D4AF37] via-[#B8962E] to-[#D4AF37] bg-clip-text text-transparent">Industry Leaders</span>
+                  Mission-Critical <span className="text-purple-700">Deployments</span>
                 </h2>
-                <p className="mt-3 text-base text-slate-500 max-w-2xl mx-auto">
-                  Powering mission-critical operations across diverse enterprise sectors
+                <p className="text-sm text-slate-600 max-w-2xl mx-auto">
+                  Enterprise OS powers operations for regulated industries requiring{" "}
+                  <span className="font-medium text-slate-800">high security</span>,{" "}
+                  <span className="font-medium text-slate-800">compliance</span>, and{" "}
+                  <span className="font-medium text-slate-800">zero-downtime availability</span>
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+              {/* Industry Cards - Professional Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                 {product.targetIndustries.map((industry, idx) => {
                   const Icon = industry.icon;
-                  const isHighlight = idx < 3; // First 3 are highlighted
                   return (
                     <motion.div
                       key={idx}
-                      className={`group relative flex flex-col items-center p-5 rounded-2xl transition-all cursor-default ${
-                        isHighlight
-                          ? "bg-gradient-to-b from-slate-900 to-slate-800 border border-[#D4AF37]/30 hover:border-[#D4AF37]/50"
-                          : "bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg"
-                      }`}
-                      initial={{ opacity: 0, y: 10 }}
+                      className="group relative bg-slate-50 border border-slate-200 rounded-xl p-4 hover:bg-white hover:border-purple-300 hover:shadow-md transition-all cursor-default"
+                      initial={{ opacity: 0, y: 8 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: idx * 0.05 }}
-                      whileHover={{ y: -2 }}
+                      transition={{ delay: idx * 0.04 }}
                     >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-all ${
-                        isHighlight
-                          ? "bg-gradient-to-br from-[#D4AF37] to-[#B8962E] shadow-lg shadow-[#D4AF37]/20"
-                          : "bg-purple-100 group-hover:bg-purple-500 text-purple-600 group-hover:text-white"
-                      }`}>
-                        <Icon className={`w-5 h-5 ${isHighlight ? "text-slate-900" : ""}`} strokeWidth={2} />
-                      </div>
-                      <div className={`text-sm font-semibold text-center ${isHighlight ? "text-white" : "text-slate-800"}`}>
-                        {industry.name}
-                      </div>
-                      <div className={`text-xs text-center ${isHighlight ? "text-[#D4AF37]" : "text-slate-500"}`}>
-                        {industry.description}
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 group-hover:border-purple-300 flex items-center justify-center mb-2.5 transition-all">
+                          <Icon className="w-5 h-5 text-slate-600 group-hover:text-purple-700 transition-colors" strokeWidth={1.5} />
+                        </div>
+                        <div className="text-xs font-semibold text-slate-800 mb-0.5">
+                          {industry.name}
+                        </div>
+                        <div className="text-[10px] text-slate-500 leading-tight">
+                          {industry.description}
+                        </div>
                       </div>
                     </motion.div>
                   );
                 })}
               </div>
+
+              {/* Compliance & Standards Bar */}
+              <motion.div
+                className="mt-8 bg-slate-900 rounded-xl p-5 border border-slate-800"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                      <h3 className="text-sm font-bold text-white">Compliance & Standards</h3>
+                    </div>
+                    <p className="text-xs text-slate-400">
+                      Built to meet stringent regulatory requirements across all deployment sectors
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { label: "SOC 2 Type II" },
+                      { label: "ISO 27001" },
+                      { label: "GDPR Ready" },
+                      { label: "HIPAA Compatible" },
+                      { label: "PCI DSS" },
+                    ].map((item, idx) => (
+                      <div key={idx} className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10">
+                        <span className="text-[10px] font-medium text-slate-300">{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </section>
         ) : (
@@ -1122,22 +1828,15 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
         {/* FINAL CTA */}
         {isEnterprise && product.slug === "enterprise-os" ? (
-          <section className="relative py-20 sm:py-28 bg-slate-950 overflow-hidden">
-            {/* Sophisticated Background */}
+          <section className="relative py-14 sm:py-16 bg-slate-950 overflow-hidden border-t border-slate-900">
+            {/* Minimal Background */}
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-950/50 via-slate-950 to-slate-950" />
               <div className="absolute inset-0 opacity-[0.02]" style={{
-                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.8) 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
+                backgroundImage: "radial-gradient(rgba(212, 175, 55, 0.5) 1px, transparent 1px)",
+                backgroundSize: "50px 50px",
               }} />
-              {/* Gold accent lines */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/20 to-transparent" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
             </div>
-
-            {/* Floating Gold Orbs */}
-            <div className="absolute top-20 left-10 w-64 h-64 bg-[#D4AF37]/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
 
             <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
               <motion.div
@@ -1146,90 +1845,91 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                {/* Premium Badge */}
+                {/* Badge */}
                 <motion.div
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 mb-6"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 mb-4"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                 >
-                  <Crown className="w-4 h-4 text-[#D4AF37]" />
-                  <span className="text-xs font-bold tracking-widest text-[#D4AF37] uppercase">Executive Partnership</span>
+                  <Briefcase className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span className="text-[10px] font-bold tracking-widest text-[#D4AF37] uppercase">Executive Consultation</span>
                 </motion.div>
 
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-                  <span className="text-white">Ready to </span>
-                  <span className="bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] bg-clip-text text-transparent">
-                    Architect Your Future?
-                  </span>
+                <h2
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3"
+                  style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+                >
+                  <span className="text-white">Request </span>
+                  <span className="text-[#D4AF37]">Technical Proposal</span>
                 </h2>
 
-                <p className="text-base sm:text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                  Schedule an <span className="text-white font-medium">executive briefing</span> with our solutions architects.{" "}
-                  Let&apos;s discuss how Enterprise OS can <span className="text-[#D4AF37] font-medium">transform your operations</span>.
+                <p className="text-sm sm:text-base text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+                  Schedule a consultation with our solutions architects to discuss your requirements.{" "}
+                  Receive a <span className="text-white font-medium">comprehensive technical proposal</span> within 48 hours including{" "}
+                  system architecture diagrams, integration roadmap, security assessment, and transparent cost analysis.
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
                   <motion.a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Josea Team, I'm interested in scheduling an executive briefing for Enterprise OS. Could you please arrange a convenient time for a demonstration? Thank you.`)}`}
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello Josea Team, I'm interested in scheduling a technical consultation for Enterprise OS. Please arrange a convenient time for a detailed discussion. Thank you.`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 font-bold text-base rounded-xl overflow-hidden bg-gradient-to-r from-[#D4AF37] via-[#F4E4B2] to-[#D4AF37] text-slate-900 shadow-lg shadow-[#D4AF37]/20 hover:shadow-[#D4AF37]/30 transition-all"
+                    className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 font-bold text-sm rounded-xl overflow-hidden bg-white text-slate-900 shadow-lg hover:shadow-xl transition-all"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full"
-                      animate={{ translateX: ["-100%", "200%"] }}
-                      transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                    />
-                    <WhatsAppIcon className="w-5 h-5 relative z-10" />
-                    <span className="relative z-10">Schedule Executive Briefing</span>
-                    <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-0.5 transition-transform" />
+                    <WhatsAppIcon className="w-4 h-4" />
+                    <span>Schedule Consultation</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </motion.a>
 
                   <motion.a
                     href={PHONE_LINK}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-semibold rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <Phone className="w-4 h-4" />
-                    Speak to Solutions Architect
+                    Call Solutions Architect
                   </motion.a>
                 </div>
 
-                {/* Trust Indicators */}
-                <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
-                  {[
-                    { icon: Shield, label: "NDA Available" },
-                    { icon: FileCheck, label: "Custom Proposal in 48hrs" },
-                    { icon: Award, label: "No Obligation" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-slate-500">
-                      <item.icon className="w-4 h-4 text-[#D4AF37]" />
-                      <span className="text-sm">{item.label}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Enterprise Credentials */}
-                <div className="pt-8 border-t border-slate-800">
-                  <p className="text-xs text-slate-500 uppercase tracking-widest mb-4">Trusted by Industry Leaders</p>
-                  <div className="flex flex-wrap items-center justify-center gap-6">
+                {/* What You Get */}
+                <div className="mb-8 p-5 rounded-xl bg-slate-900/50 border border-slate-800 max-w-3xl mx-auto">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-3">Proposal Includes</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {[
-                      { icon: Factory, label: "Manufacturing" },
-                      { icon: Landmark, label: "Government" },
-                      { icon: Stethoscope, label: "Healthcare" },
-                      { icon: Briefcase, label: "Finance" },
-                      { icon: GraduationCap, label: "Education" },
-                    ].map((sector, idx) => (
-                      <div key={idx} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800">
-                        <sector.icon className="w-3.5 h-3.5 text-slate-500" />
-                        <span className="text-xs text-slate-400">{sector.label}</span>
+                      { icon: FileCheck, label: "System Architecture" },
+                      { icon: Network, label: "Integration Plan" },
+                      { icon: Shield, label: "Security Audit" },
+                      { icon: Banknote, label: "Cost Breakdown" },
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <item.icon className="w-3.5 h-3.5 text-[#D4AF37] flex-shrink-0" />
+                        <span className="text-xs text-slate-300">{item.label}</span>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* Process & Guarantees */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                  <div className="p-4 rounded-lg bg-slate-900/30 border border-slate-800">
+                    <Shield className="w-5 h-5 text-[#D4AF37] mx-auto mb-2" />
+                    <p className="text-xs font-semibold text-white mb-1">NDA Available</p>
+                    <p className="text-[10px] text-slate-500">Confidentiality guaranteed</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-slate-900/30 border border-slate-800">
+                    <Timer className="w-5 h-5 text-[#D4AF37] mx-auto mb-2" />
+                    <p className="text-xs font-semibold text-white mb-1">48-Hour Turnaround</p>
+                    <p className="text-[10px] text-slate-500">Detailed technical proposal</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-slate-900/30 border border-slate-800">
+                    <Award className="w-5 h-5 text-[#D4AF37] mx-auto mb-2" />
+                    <p className="text-xs font-semibold text-white mb-1">No Obligation</p>
+                    <p className="text-[10px] text-slate-500">Architecture review included</p>
                   </div>
                 </div>
               </motion.div>

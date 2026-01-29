@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductBillboard from "@/components/ProductBillboard";
+import PhilosophySection from "@/components/PhilosophySection";
 import ProblemSection from "@/components/ProblemSection";
 import BentoGrid from "@/components/BentoGrid";
 
@@ -14,15 +15,18 @@ import BentoGrid from "@/components/BentoGrid";
 // BELOW-THE-FOLD: Dynamic imports with loading placeholders
 // These load on-demand as user scrolls, reducing initial bundle size
 // ============================================================================
-const PricingSection = dynamic(() => import("@/components/PricingSection"), {
-  loading: () => <div className="h-96 bg-white" />,
-  ssr: true,
-});
-
-const DigitalPricingSection = dynamic(
-  () => import("@/components/DigitalPricingSection"),
+const OperationsSuiteSection = dynamic(
+  () => import("@/components/OperationsSuiteSection"),
   {
-    loading: () => <div className="h-96 bg-slate-50" />,
+    loading: () => <div className="h-96 bg-white" />,
+    ssr: true,
+  }
+);
+
+const DigitalSuiteSection = dynamic(
+  () => import("@/components/DigitalSuiteSection"),
+  {
+    loading: () => <div className="h-80 bg-slate-50" />,
     ssr: true,
   }
 );
@@ -59,6 +63,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ProductBillboard />
+      <PhilosophySection />
 
       {/* ============================================
           PARALLAX SLIDE CONTAINER
@@ -89,11 +94,11 @@ export default function Home() {
         <BentoGrid />
       </div>
 
-      {/* Pricing Section */}
-      <PricingSection />
+      {/* Operations Suite Section - Primary */}
+      <OperationsSuiteSection />
 
-      {/* Digital Pricing Section */}
-      <DigitalPricingSection />
+      {/* Digital Suite Section - Secondary */}
+      <DigitalSuiteSection />
 
       {/* How We Work Section */}
       <HowWeWorkSection />

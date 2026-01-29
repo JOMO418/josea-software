@@ -241,7 +241,7 @@ export default function HowWeWorkSection() {
   const isDesktopInView = useInView(desktopRef, { amount: 0.3 });
 
   return (
-    <section id="how-we-work" className="bg-slate-50 pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+    <section id="how-we-work" className="bg-slate-50 pt-12 sm:pt-14 pb-10 sm:pb-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <motion.div
@@ -249,12 +249,31 @@ export default function HowWeWorkSection() {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 lg:mb-20"
+          className="text-center mb-10 lg:mb-12"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-            How We Work.
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="w-8 h-px bg-purple-300" />
+            <span
+              className="text-purple-600 text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase"
+              style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+            >
+              Our Process
+            </span>
+            <span className="w-8 h-px bg-purple-300" />
+          </div>
+          <h2
+            className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-800 mb-4"
+            style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+          >
+            How We{" "}
+            <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
+              Work
+            </span>
           </h2>
-          <p className="text-slate-600 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed">
+          <p
+            className="text-slate-500 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light"
+            style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+          >
             A transparent, collaborative four-step process designed to take you
             from concept to empowered operation.
           </p>
@@ -301,6 +320,27 @@ export default function HowWeWorkSection() {
               )}
             </div>
           ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-center mt-12 lg:mt-16"
+        >
+          <a
+            href="https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I'd%20like%20to%20start%20the%20discovery%20process%20and%20discuss%20how%20your%20solutions%20can%20help%20my%20business.%20When%20can%20we%20schedule%20a%20consultation%3F"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full font-semibold text-sm shadow-lg transition-all duration-300 hover:scale-105"
+          >
+            <span>Begin Your Journey</span>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </motion.div>
       </div>
     </section>

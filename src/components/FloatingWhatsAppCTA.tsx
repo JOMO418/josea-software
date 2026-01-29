@@ -15,123 +15,98 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 );
 
 export default function FloatingWhatsAppCTA() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
-  // REPLACE WITH YOUR ACTUAL PHONE NUMBER (International format without '+')
   const phoneNumber = "254746554150";
-  const message = encodeURIComponent("Hi Josea Team, I'm interested in learning more about your software solutions. Could you share more information?");
+  const message = encodeURIComponent("Hi Josea Team, I'm interested in learning more about your software solutions.");
 
-  // Fast, attention-grabbing animation cycle
+  // Alternating tooltip: Shows for 3s, hides for 6s (to allow AI to show)
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
-    let collapseTimeoutId: NodeJS.Timeout | null = null;
-
-    const runCycle = () => {
-      setIsExpanded(true);
-      collapseTimeoutId = setTimeout(() => setIsExpanded(false), 3000); // 3s open
-    };
-
-    // Start quickly - 1.5s after page load
+    // Initial delay before first show
     const initialDelay = setTimeout(() => {
-      runCycle();
-      // Repeat every 8 seconds for urgency
-      intervalId = setInterval(runCycle, 8000);
-    }, 1500);
+      setShowTooltip(true);
+    }, 2000);
+
+    // Cycle: Show for 3s, hide for 6s
+    const showInterval = setInterval(() => {
+      setShowTooltip(true);
+
+      const hideTimeout = setTimeout(() => {
+        setShowTooltip(false);
+      }, 3000);
+
+      return () => clearTimeout(hideTimeout);
+    }, 9000); // 3s show + 6s hide = 9s total cycle
 
     return () => {
       clearTimeout(initialDelay);
-      if (intervalId) clearInterval(intervalId);
-      if (collapseTimeoutId) clearTimeout(collapseTimeoutId);
+      clearInterval(showInterval);
     };
   }, []);
 
   return (
-    <>
-      {/* Pulsing ring animation behind the button */}
-      <motion.div
-        className="fixed bottom-6 right-6 z-[99] w-14 h-14 rounded-full bg-[#25D366]"
-        animate={{
-          scale: [1, 1.4, 1.4],
-          opacity: [0.4, 0, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatDelay: 1,
-          ease: "easeOut",
-        }}
-      />
+    <div className="fixed bottom-[76px] right-5 z-40">
+      {/* Refined Professional Tooltip */}
+      <AnimatePresence>
+        {showTooltip && (
+          <motion.div
+            initial={{ opacity: 0, x: 10, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 5, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute right-14 bottom-0 pointer-events-none"
+          >
+            <div className="relative">
+              <div
+                className="bg-white text-slate-800 text-xs font-medium px-3 py-2 rounded-lg shadow-lg border border-slate-200 whitespace-nowrap"
+                style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}
+              >
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>Chat on WhatsApp</span>
+                </div>
+              </div>
+              {/* Arrow */}
+              <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[6px] border-l-white drop-shadow-sm" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Second pulse ring for layered effect */}
-      <motion.div
-        className="fixed bottom-6 right-6 z-[99] w-14 h-14 rounded-full bg-[#25D366]"
-        animate={{
-          scale: [1, 1.3, 1.3],
-          opacity: [0.3, 0, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          repeatDelay: 1,
-          delay: 0.3,
-          ease: "easeOut",
-        }}
-      />
-
-      {/* Main CTA Button */}
+      {/* WhatsApp Button - Professional Size (48px) */}
       <motion.a
         href={`https://wa.me/${phoneNumber}?text=${message}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-[100] flex items-center h-14 bg-[#25D366] hover:bg-[#1ebe5d] text-white shadow-[0_4px_25px_rgba(37,211,102,0.5)] cursor-pointer overflow-hidden"
+        className="block"
         initial={{ scale: 0, opacity: 0 }}
-        animate={{
-          scale: 1,
-          opacity: 1,
-          width: isExpanded ? "auto" : "3.5rem",
-          borderRadius: isExpanded ? "1rem" : "9999px",
-        }}
-        transition={{
-          scale: { type: "spring", stiffness: 400, damping: 15, delay: 0.5 },
-          width: { type: "spring", stiffness: 400, damping: 25 },
-          borderRadius: { duration: 0.2 },
-        }}
-        whileHover={{ scale: 1.08, boxShadow: "0 6px 30px rgba(37,211,102,0.6)" }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 400, damping: 22, delay: 0.2 }}
+        whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
-        onMouseEnter={() => !hasInteracted && setHasInteracted(true)}
+        aria-label="Chat on WhatsApp"
       >
-        <div className="flex items-center px-4">
-          {/* Icon with subtle bounce */}
-          <motion.div
-            animate={!isExpanded ? {
-              rotate: [0, -10, 10, -10, 10, 0],
-            } : {}}
-            transition={{
-              duration: 0.5,
-              repeat: Infinity,
-              repeatDelay: 3,
-            }}
-          >
-            <WhatsAppIcon className="w-6 h-6 flex-shrink-0" />
-          </motion.div>
+        <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 transition-shadow">
+          <WhatsAppIcon className="w-6 h-6 text-white" />
 
-          {/* Text Reveal */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.span
-                initial={{ opacity: 0, width: 0, x: -10 }}
-                animate={{ opacity: 1, width: "auto", x: 0, marginLeft: 10 }}
-                exit={{ opacity: 0, width: 0, x: -10, marginLeft: 0 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="font-bold whitespace-nowrap text-[15px] tracking-tight pr-1"
-              >
-                Let's Talk
-              </motion.span>
-            )}
-          </AnimatePresence>
+          {/* Subtle pulse indicator */}
+          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5">
+            <motion.div
+              className="absolute inset-0 bg-emerald-400 rounded-full"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.8, 0, 0.8],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeOut",
+              }}
+            />
+            <div className="absolute inset-0 bg-emerald-400 rounded-full border border-white" />
+          </div>
         </div>
       </motion.a>
-    </>
+    </div>
   );
 }

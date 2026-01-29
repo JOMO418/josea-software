@@ -70,7 +70,7 @@ export default function FAQSection() {
   const [activeCategory, setActiveCategory] = useState(0);
 
   return (
-    <section className="bg-slate-50 pt-8 sm:pt-12 pb-8 sm:pb-12">
+    <section className="bg-slate-50 pt-8 sm:pt-10 pb-8 sm:pb-10">
       <div className="mx-auto max-w-5xl px-6 lg:px-8">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">

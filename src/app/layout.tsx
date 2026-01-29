@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingWhatsAppCTA from "@/components/FloatingWhatsAppCTA";
+import JoseaAI from "@/components/JoseaAI";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -25,7 +26,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${plusJakarta.variable} font-sans antialiased`}>
         {children}
+
+        {/* Floating CTAs - Stacked bottom-right */}
+        {/* WhatsApp at bottom (z-40), Josea AI above it (z-40), AI chat window (z-50) */}
         <FloatingWhatsAppCTA />
+        <JoseaAI />
       </body>
     </html>
   );

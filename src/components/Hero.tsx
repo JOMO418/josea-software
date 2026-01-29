@@ -1,73 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
-  MessageCircle,
-  Phone,
+  Code2,
 } from "lucide-react";
 
 // WhatsApp Business Number
 const WHATSAPP_NUMBER = "254746554150";
-const PHONE_NUMBER = "tel:+254746554150";
-const DEMO_MESSAGE = "Hello Josea Team, I'm interested in scheduling a demo of your business software solutions. Could you please arrange a convenient time for a demonstration? Thank you.";
-const GENERAL_INQUIRY = "Hi Josea Team, I'm interested in learning more about your software solutions. Could you share more information?";
-
-// Typewriter messages - defined outside component to avoid recreating on each render
-const TYPEWRITER_MESSAGES = ["Book a Demo...", "Chat on WhatsApp..."];
+const CONSULTATION_MESSAGE = "Hello Josea Team, I'd like to speak with a consultant about your custom software solutions for my business.";
 
 const Hero = () => {
-  // Typewriter effect state
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    const currentMessage = TYPEWRITER_MESSAGES[messageIndex];
-
-    if (isTyping) {
-      if (displayedText.length < currentMessage.length) {
-        const timeout = setTimeout(() => {
-          setDisplayedText(currentMessage.slice(0, displayedText.length + 1));
-        }, 80);
-        return () => clearTimeout(timeout);
-      } else {
-        // Finished typing, wait then start deleting
-        const timeout = setTimeout(() => {
-          setIsTyping(false);
-        }, 2000);
-        return () => clearTimeout(timeout);
-      }
-    } else {
-      if (displayedText.length > 0) {
-        const timeout = setTimeout(() => {
-          setDisplayedText(displayedText.slice(0, -1));
-        }, 40);
-        return () => clearTimeout(timeout);
-      } else {
-        // Finished deleting, move to next message
-        setMessageIndex((prev) => (prev + 1) % TYPEWRITER_MESSAGES.length);
-        setIsTyping(true);
-      }
-    }
-  }, [displayedText, isTyping, messageIndex]);
-
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.05,
+        delayChildren: 0.15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
@@ -78,220 +35,128 @@ const Hero = () => {
     },
   };
 
-  const dashboardVariants = {
-    hidden: { opacity: 0, y: 120, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 80,
-        damping: 20,
-        mass: 1,
-        delay: 0.4,
-      },
-    },
-  };
-
   return (
-    <section className="relative overflow-hidden bg-surface-ground">
-      {/* ===== THE SPOTLIGHT (Heavenly Light Effect) - Hidden on mobile for performance ===== */}
-      <div className="hidden sm:block absolute top-[-20%] left-0 right-0 h-[500px] bg-gradient-to-b from-purple-500/20 to-transparent blur-[100px] pointer-events-none" />
-
-      {/* ===== THE MESH (Moving Mesh Gradient Pattern) - Hidden on mobile for performance ===== */}
-      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
+    <section className="relative min-h-[75vh] overflow-hidden flex items-center">
+      {/* Premium Gradient Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-purple-900/90 to-indigo-950" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-transparent" />
         <div
-          className="absolute inset-0 opacity-30 animate-mesh"
+          className="absolute inset-0"
           style={{
-            backgroundImage: `
-              radial-gradient(at 40% 20%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
-              radial-gradient(at 80% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-              radial-gradient(at 0% 50%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
-              radial-gradient(at 80% 50%, rgba(79, 70, 229, 0.1) 0px, transparent 50%),
-              radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.1) 0px, transparent 50%),
-              radial-gradient(at 80% 100%, rgba(99, 102, 241, 0.08) 0px, transparent 50%)
-            `,
+            background: 'radial-gradient(ellipse 80% 50% at 50% 20%, rgba(167, 139, 250, 0.25) 0%, transparent 60%)'
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
       </div>
 
-      {/* ===== ANIMATED BACKGROUND BLOBS - Hidden on mobile for performance ===== */}
-      <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Floating Ambient Orbs */}
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
+          className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full"
           style={{
-            background:
-              "radial-gradient(circle, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 70%)",
+            background: 'radial-gradient(circle, rgba(196, 181, 253, 0.2) 0%, transparent 70%)'
           }}
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut" as const,
-          }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.7, 0.5] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute -bottom-48 -left-48 w-[700px] h-[700px] rounded-full blur-3xl opacity-30"
+          className="absolute -bottom-40 -left-32 w-[450px] h-[450px] rounded-full"
           style={{
-            background:
-              "radial-gradient(circle, rgba(91, 33, 182, 0.4) 0%, rgba(91, 33, 182, 0) 70%)",
+            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)'
           }}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut" as const,
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(165, 180, 252, 0.3) 0%, transparent 70%)",
-          }}
-          animate={{
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut" as const,
-          }}
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      {/* ===== TYPOGRAPHY SECTION ===== */}
-      <motion.div
-        className="relative z-10 max-w-4xl mx-auto text-center pt-24 sm:pt-20 lg:pt-24 pb-8 px-4"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Headline - Compact and Punchy */}
-        <motion.h1
-          variants={itemVariants}
-          className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-[1.1]"
-        >
-          Business Software That
-          <br />
-          <span
-            className="text-transparent bg-clip-text animate-gradient-text"
-            style={{
-              backgroundImage: "linear-gradient(90deg, #7c3aed, #4f46e5, #3b82f6, #4f46e5, #7c3aed)",
-              backgroundSize: "200% 200%",
-            }}
-          >
-            Grows With You.
-          </span>
-        </motion.h1>
-
-        {/* Subheadline */}
-        <motion.p
-          variants={itemVariants}
-          className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium"
-        >
-          High-performance systems for Kenya&apos;s ambitious Bussinesses. We combine
-          AI-powered automation with enterprise scale—at a price that makes
-          perfect sense.
-        </motion.p>
-
-        {/* ===== SHIMMER BUTTONS (Alive Interaction) ===== */}
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-24 pb-12 lg:pt-32 lg:pb-16">
         <motion.div
-          variants={itemVariants}
-          className="mt-8 flex flex-row items-center justify-center gap-3 sm:gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-center"
         >
-          {/* Primary Button - Book a Demo with Shimmer (WhatsApp) */}
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEMO_MESSAGE)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative bg-brand-gradient text-white px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden"
-          >
-            {/* The Shimmer Effect */}
-            <div className="absolute inset-0 animate-shimmer pointer-events-none">
-              <div
-                className="h-full w-1/3"
-                style={{
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                }}
-              />
-            </div>
-            <span className="relative z-10">Book a Demo</span>
-            <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
-          </a>
-
-          {/* Secondary Button - Meet an Advisor (Phone Call) */}
-          <a
-            href={PHONE_NUMBER}
-            className="group backdrop-blur-md bg-white/50 border border-white/60 text-slate-800 px-5 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-sm sm:text-base shadow-sm hover:bg-white hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Phone className="w-5 h-5" />
-            Meet an Advisor
-          </a>
-        </motion.div>
-      </motion.div>
-
-      {/* ===== HERO IMAGE CONTAINER ===== */}
-      <motion.div
-        className="relative z-10 mt-8 sm:mt-10 max-w-6xl mx-auto px-4 pb-16"
-        style={{ perspective: "2500px" }}
-        variants={dashboardVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Image wrapper for overlay positioning */}
-        <div className="relative">
-          <Image
-            src="/hero-devices-sync-v2.png"
-            alt="Josea Software running synchronized across desktop, laptop, tablet, phone, and mobile POS."
-            width={1200}
-            height={800}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-            className="w-full h-auto rounded-2xl shadow-2xl border border-white/40 backdrop-blur-xl"
-            style={{ transform: "rotateX(10deg)" }}
-            priority
-          />
-
-          {/* ===== FLOATING ACTION BADGE ===== */}
-          <motion.a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(GENERAL_INQUIRY)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute bottom-1 right-1 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl rounded-full py-2 pl-2 pr-4 scale-75 origin-bottom-right sm:scale-100 md:bottom-3 md:right-3 md:py-3 md:pl-3 md:pr-6 md:gap-3 md:shadow-2xl cursor-pointer hover:scale-[0.8] sm:hover:scale-105 transition-transform"
-            animate={{
-              y: [0, -5, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut" as const,
-            }}
-          >
-            {/* Green Circle with Pulse Animation */}
-            <div className="relative">
-              {/* Pulse ring */}
-              <div className="absolute inset-0 bg-green-500 rounded-full animate-pulse-ring" />
-              {/* Icon container */}
-              <div className="relative bg-green-500 rounded-full p-1.5 md:p-2">
-                <MessageCircle className="w-3 h-3 md:w-4 md:h-4 text-white" />
-              </div>
-            </div>
-
-            {/* Typewriter Text */}
-            <span className="text-xs md:text-sm font-bold text-slate-800 font-mono whitespace-nowrap">
-              {displayedText}
-              <span className="animate-blink">|</span>
+          {/* Suite Badge */}
+          <motion.div variants={itemVariants} className="mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md">
+              <Code2 className="w-3.5 h-3.5 text-violet-300" strokeWidth={1.5} />
+              <span
+                className="text-xs tracking-[0.2em] text-violet-200/90"
+                style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+              >
+                SOFTWARE SOLUTIONS
+              </span>
             </span>
-          </motion.a>
-        </div>
-      </motion.div>
+          </motion.div>
+
+          {/* Main Headline */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-5 tracking-tight"
+            style={{ fontFamily: "'Palatino Linotype', 'Book Antiqua', Georgia, serif" }}
+          >
+            <span className="text-white/95">Purpose-Built </span>
+            <span className="bg-gradient-to-r from-violet-200 via-purple-100 to-violet-200 bg-clip-text text-transparent">
+              Software
+            </span>
+            <br />
+            <span className="text-white/95">for Business Excellence</span>
+          </motion.h1>
+
+          {/* Sub-headline */}
+          <motion.p
+            variants={itemVariants}
+            className="text-base sm:text-lg md:text-xl text-violet-100/70 max-w-2xl mx-auto leading-relaxed mb-8 font-light"
+          >
+            From growing enterprises to industry leaders—we design and build{" "}
+            <span className="text-white/90 font-normal">custom systems</span>{" "}
+            that fit your operations precisely. Reliable software solutions{" "}
+            <span className="text-white/90 font-normal">crafted with purpose</span>.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
+            <Link href="#solutions">
+              <motion.button
+                className="group relative px-6 py-3 bg-white rounded-full font-medium text-violet-950 text-sm shadow-xl shadow-purple-900/20 overflow-hidden"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span className="relative z-10 flex items-center gap-2 tracking-wide">
+                  Explore Solutions
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={2} />
+                </span>
+              </motion.button>
+            </Link>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(CONSULTATION_MESSAGE)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <motion.button
+                className="px-6 py-3 border border-white/25 hover:border-white/40 rounded-full font-medium text-white/90 hover:text-white text-sm transition-all duration-300 backdrop-blur-sm tracking-wide"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Speak to a Consultant
+              </motion.button>
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Bottom Gradient Fade to White */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent" />
     </section>
   );
 };
