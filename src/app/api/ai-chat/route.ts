@@ -180,7 +180,7 @@ You: "I'd be happy to help you find the right fit. What type of business are you
 [User answers: "3 pharmacies"]
 You: "Perfect. For 3 pharmacy locations, Retail Pro is ideal - it handles multi-branch inventory with expiry tracking built in, plus M-Pesa integration. The team can walk you through exactly how it fits your workflow and get you set up.
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I'm%20interested%20in%20Retail%20Pro%20for%20my%203%20pharmacies
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20Retail%20Pro%20for%20my%203%20pharmacy%20locations.%20I%20would%20appreciate%20speaking%20with%20someone%20about%20this%20solution.
 📞 Call: +254 746 554150"
 
 ---
@@ -195,7 +195,7 @@ You: "Perfect. For 3 pharmacy locations, Retail Pro is ideal - it handles multi-
 
 "I can see you're seriously interested in finding the right solution for your business. At this point, the best next step is speaking with our team directly - they'll understand your specific needs and get you sorted quickly.
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20[brief context from conversation]
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20solutions.%20I%27ve%20been%20reviewing%20your%20services%20and%20would%20appreciate%20speaking%20with%20someone%20about%20my%20specific%20business%20needs.
 📞 Call: +254 746 554150
 
 They're very responsive and will take great care of you."
@@ -217,7 +217,7 @@ When user shows **early interest** (message 1-2), **strike while hot:**
 **Response (Fast, Professional):**
 "Excellent! Let's get you connected with the team right away - they'll get you sorted quickly and answer any specific questions.
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I'm%20interested%20in%20[package/solution]
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20[package/solution].%20I%27m%20interested%20in%20learning%20more%20and%20would%20appreciate%20speaking%20with%20someone%20about%20this%20solution.
 📞 Call: +254 746 554150
 
 They're standing by to help."
@@ -232,7 +232,7 @@ They're standing by to help."
 
 "Pricing depends on your specific setup and needs. The team will give you the best deal for the package you're interested in, plus discuss payment options if needed. Let's connect you:
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I'd%20like%20to%20discuss%20pricing%20for%20[package]
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20pricing%20for%20[package].%20I%20would%20appreciate%20detailed%20information%20about%20costs%20and%20available%20payment%20options.
 📞 Call: +254 746 554150
 
 They'll take care of you."
@@ -253,7 +253,7 @@ They'll take care of you."
 **Response:**
 "Absolutely - custom software development is exactly what we do. We deploy a team to understand your operations keenly, then deliver a professional system tailored precisely to your needs. Let me connect you with the team to discuss your requirements:
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I%20need%20a%20custom%20solution%20for%20[brief description]
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20custom%20software%20development%20for%20[brief description].%20I%20would%20appreciate%20speaking%20with%20someone%20about%20my%20specific%20requirements.
 📞 Call: +254 746 554150"
 
 ---
@@ -288,7 +288,7 @@ You: "Great question. Scaling successfully usually comes down to three things: o
 
 "I've given you a good overview of how we can help. At this point, the team should take over - they'll understand your specific situation and get you exactly what you need, quickly.
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20[conversation context]
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20solutions.%20I%27ve%20been%20reviewing%20your%20services%20and%20would%20appreciate%20speaking%20with%20someone%20about%20my%20specific%20business%20needs.
 📞 Call: +254 746 554150
 
 They're excellent at what they do. You'll be in great hands."
@@ -302,15 +302,15 @@ They're excellent at what they do. You'll be in great hands."
 Always include context in WhatsApp links:
 
 **Format:**
-https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20[CONTEXT]
+https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20[CONTEXT]
 
 **Context examples:**
-- "I'm interested in Retail Pro for my 3 pharmacies"
-- "I need custom software for delivery tracking"
-- "I'd like to discuss pricing for Enterprise OS"
-- "I want to see how your e-commerce solution works"
+- "Hello Josea Team, I would like to inquire about Retail Pro for my 3 pharmacy locations. I would appreciate speaking with someone about this solution."
+- "Hello Josea Team, I would like to inquire about custom software development for delivery tracking. Please contact me to discuss my requirements."
+- "Hello Josea Team, I would like to inquire about pricing for Enterprise OS. I would appreciate detailed information about this solution."
+- "Hello Josea Team, I would like to inquire about your e-commerce solutions. Please contact me to discuss how this can work for my business."
 
-**Encode spaces as %20, commas as %2C**
+**Always use professional, complete inquiry statements - encode spaces as %20, commas as %2C, apostrophes as %27**
 
 ---
 
@@ -358,7 +358,7 @@ function generateEscalationMessage(messageCount: number, lastUserMessage: string
   if (messageCount >= 5) {
     return `I've given you a solid overview of how Josea can help. The best next step now is speaking with the team directly - they'll understand your exact needs and get you sorted quickly.
 
-📱 WhatsApp: https://wa.me/254746554150?text=Hi%20Josea%20Team%2C%20I've%20been%20chatting%20about%20software%20solutions
+📱 WhatsApp: https://wa.me/254746554150?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20solutions.%20I%27ve%20been%20reviewing%20your%20services%20and%20would%20appreciate%20speaking%20with%20someone%20about%20my%20specific%20business%20needs.
 📞 Call: +254 746 554150
 
 They're standing by and very responsive. You'll be in excellent hands.`;
@@ -405,7 +405,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
     if (!process.env.GEMINI_API_KEY) {
       console.error('❌ [AI Chat] GEMINI_API_KEY is not configured');
       return NextResponse.json(
-        { error: 'AI service is not configured. Please contact support.' },
+        { error: 'Our AI assistant is temporarily unavailable. Please contact our team directly for immediate assistance at +254 746 554150 or via WhatsApp.' },
         { status: 503 }
       );
     }
@@ -418,7 +418,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
     } catch (parseError) {
       console.error('❌ [AI Chat] JSON parse error:', parseError);
       return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
+        { error: 'We encountered an issue processing your message. Please try again or contact our team at +254 746 554150.' },
         { status: 400 }
       );
     }
@@ -426,7 +426,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
     if (!validateRequest(body)) {
       console.error('❌ [AI Chat] Validation failed for body:', body);
       return NextResponse.json(
-        { error: 'Invalid request. Please provide a valid message.' },
+        { error: 'Please enter a message and try again. If the issue persists, contact our team at +254 746 554150.' },
         { status: 400 }
       );
     }
@@ -439,7 +439,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
     const sanitizedMessage = sanitizeInput(message);
     if (sanitizedMessage.length === 0) {
       return NextResponse.json(
-        { error: 'Message cannot be empty' },
+        { error: 'Please enter a message. How can we help you today?' },
         { status: 400 }
       );
     }
@@ -454,7 +454,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
     const userMessageCount = countUserMessages(conversationHistory);
     console.log('📊 [AI Chat] User message count:', userMessageCount);
 
-    // Force escalation after 5 messages
+    // Force escalation after 5 messages - DISABLED FOR TESTING
+    // TODO: Re-enable this before production deployment
+    /*
     if (userMessageCount >= 4) { // 4 because we're about to add the 5th
       console.log('🚨 [AI Chat] Message limit reached, forcing escalation');
       const escalationMessage = generateEscalationMessage(userMessageCount + 1, sanitizedMessage);
@@ -466,6 +468,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
         escalationType: 'limit_reached' as any,
       });
     }
+    */
 
     // Prepare conversation history (keep last 10 messages for context)
     // Convert from UI format to Gemini format if needed
@@ -544,20 +547,20 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
 
       if (error.message.includes('RESOURCE_EXHAUSTED') || error.message.includes('429')) {
         return NextResponse.json(
-          { error: 'We\'re experiencing high demand. Please try again in a moment.' },
+          { error: 'Our AI assistant is currently assisting other customers. For immediate help, please contact our team directly at +254 746 554150 or via WhatsApp.' },
           { status: 429 }
         );
       }
       if (error.message.includes('API_KEY') || error.message.includes('401') || error.message.includes('403')) {
         console.error('❌ [AI Chat] API key issue detected');
         return NextResponse.json(
-          { error: 'AI service configuration error. Please contact support.' },
+          { error: 'Our AI assistant is temporarily unavailable. Please contact our team directly at +254 746 554150 or via WhatsApp for immediate assistance.' },
           { status: 503 }
         );
       }
       if (error.name === 'AbortError') {
         return NextResponse.json(
-          { error: 'Request timed out. Please try again.' },
+          { error: 'The connection took too long. Please try sending your message again, or contact us directly at +254 746 554150.' },
           { status: 504 }
         );
       }
@@ -565,7 +568,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ChatResponse 
 
     // Generic error response
     return NextResponse.json(
-      { error: 'Something went wrong. Please try again or contact us directly at +254 746 554150.' },
+      { error: 'We encountered an issue processing your request. Please contact our team directly at +254 746 554150 or via WhatsApp for immediate assistance.' },
       { status: 500 }
     );
   }

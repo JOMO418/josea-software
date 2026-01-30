@@ -33,6 +33,7 @@ interface APIResponse {
 // =============================================================================
 
 const STORAGE_KEY = 'josea-ai-conversation';
+const MESSAGE_COUNT_KEY = 'josea-ai-message-count';
 const MAX_STORED_MESSAGES = 50;
 const MAX_CONTEXT_MESSAGES = 10;
 
@@ -339,7 +340,7 @@ const MessageBubble = ({ message, isLatest }: { message: Message; isLatest: bool
             <div className="flex flex-col gap-2 mt-4 pt-3 border-t border-purple-100/50">
               {hasWhatsApp && (
                 <a
-                  href={whatsAppUrl || `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Josea Team, I'd like to learn more")}`}
+                  href={whatsAppUrl || `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello Josea Team, I would like to inquire about your software solutions. I would appreciate speaking with someone about my business needs.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#1ebe5d] hover:to-[#0d7a6b] text-white py-3 rounded-xl font-semibold transition-all shadow-md shadow-emerald-500/20 hover:shadow-lg"
@@ -449,15 +450,48 @@ export default function JoseaAI() {
     }
   }, [isOpen]);
 
-  // Convert messages to API format
+  // Get total user message count (persists across sessions)
+  const getTotalUserMessageCount = (): number => {
+    if (typeof window === 'undefined') return 0;
+    const stored = localStorage.getItem(MESSAGE_COUNT_KEY);
+    return stored ? parseInt(stored, 10) : 0;
+  };
+
+  // Increment and persist user message count
+  const incrementUserMessageCount = () => {
+    if (typeof window === 'undefined') return;
+    const current = getTotalUserMessageCount();
+    localStorage.setItem(MESSAGE_COUNT_KEY, (current + 1).toString());
+  };
+
+  // Convert messages to API format (includes empty placeholders to maintain count)
   const getConversationHistory = useCallback((): ConversationHistoryItem[] => {
-    return messages
+    const currentHistory = messages
       .slice(-MAX_CONTEXT_MESSAGES)
       .filter(m => m.id !== 'welcome')
       .map(m => ({
         role: m.role === 'user' ? 'user' : 'model',
         parts: [{ text: m.content }],
       }));
+
+    // Add placeholder entries to maintain message count for limit tracking
+    const totalCount = getTotalUserMessageCount();
+    const currentCount = currentHistory.filter(m => m.role === 'user').length;
+    const missingCount = totalCount - currentCount;
+
+    if (missingCount > 0) {
+      // Add minimal placeholder messages at the start to maintain count
+      const placeholders: ConversationHistoryItem[] = [];
+      for (let i = 0; i < missingCount; i++) {
+        placeholders.push(
+          { role: 'user', parts: [{ text: '...' }] },
+          { role: 'model', parts: [{ text: '...' }] }
+        );
+      }
+      return [...placeholders, ...currentHistory];
+    }
+
+    return currentHistory;
   }, [messages]);
 
   // Send message to API
@@ -476,6 +510,11 @@ export default function JoseaAI() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+
+    // Increment persistent message count for limit tracking
+    incrementUserMessageCount();
+    console.log('📊 [Chat UI] Total user messages sent:', getTotalUserMessageCount());
+
     setIsLoading(true);
     setIsTyping(true);
 
@@ -514,13 +553,13 @@ export default function JoseaAI() {
         setHasNewMessage(true);
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Something went wrong';
+      const errorMessage = err instanceof Error ? err.message : 'We encountered an issue processing your request.';
       setError(errorMessage);
 
       const errorAiMessage: Message = {
         id: generateId(),
         role: 'ai',
-        content: `I'm having trouble connecting right now. You can reach our team directly at:\n\nWhatsApp: https://wa.me/${WHATSAPP_NUMBER}\nCall: ${PHONE_NUMBER}`,
+        content: `I apologize for the inconvenience. Our AI assistant is having a brief issue. Please feel free to contact our team directly - they're ready to help you right away:\n\n📱 WhatsApp: https://wa.me/${WHATSAPP_NUMBER}?text=Hello%20Josea%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20software%20solutions.%20I%20would%20appreciate%20speaking%20with%20someone%20about%20my%20business%20needs.\n📞 Call: ${PHONE_NUMBER}`,
         timestamp: new Date(),
       };
 
@@ -531,17 +570,17 @@ export default function JoseaAI() {
     }
   };
 
-  // Handle closing chat and resetting conversation
+  // Handle closing chat and clearing visible messages (but keep message count for limit)
   const handleClose = () => {
     setIsOpen(false);
 
-    // Clear conversation history from localStorage
+    // Clear visible conversation
     localStorage.removeItem(STORAGE_KEY);
-
-    // Reset messages to initial welcome
     setMessages([INITIAL_MESSAGE]);
 
-    console.log('🔄 [Chat UI] Conversation reset on close');
+    // Keep message count in localStorage for limit tracking
+    // (Message count persists across sessions)
+    console.log('🔄 [Chat UI] Chat closed - messages cleared, limit counter persists');
   };
 
   // Handle input submit
