@@ -39,7 +39,7 @@ const MAX_CONTEXT_MESSAGES = 10;
 const INITIAL_MESSAGE: Message = {
   id: 'welcome',
   role: 'ai',
-  content: "Hello! I'm Josea AI, your intelligent business solutions assistant. How may I help you discover the perfect software for your business today?",
+  content: "Hi! I'm Josea AI, I can help you find the perfect software solution for your business. What would you like to know?",
   timestamp: new Date(),
 };
 
@@ -82,12 +82,17 @@ const parseMessageForLinks = (content: string): {
   let whatsAppUrl = whatsAppMatch?.[0];
 
   if (whatsAppMatch) {
+    // Remove WhatsApp line with emoji marker
+    cleanContent = cleanContent.replace(/📱\s*WhatsApp:?\s*https:\/\/wa\.me\/[^\s)"\n]*/gi, '');
     cleanContent = cleanContent.replace(/\*?\*?WhatsApp:?\*?\*?\s*https:\/\/wa\.me\/[^\s)"\n]*/gi, '');
   }
   if (phoneMatch) {
+    // Remove Call/Phone line with emoji marker
+    cleanContent = cleanContent.replace(/📞\s*(?:Call|Phone):?\s*\+?\d[\d\s-]+/gi, '');
     cleanContent = cleanContent.replace(/\*?\*?(?:Call|Phone):?\*?\*?\s*\+?\d[\d\s-]+/gi, '');
   }
 
+  // Remove "Talk to Us" headers
   cleanContent = cleanContent.replace(/\*?\*?Talk to Us:?\*?\*?\s*/gi, '');
   cleanContent = cleanContent.replace(/\n{3,}/g, '\n\n').trim();
 
@@ -526,6 +531,19 @@ export default function JoseaAI() {
     }
   };
 
+  // Handle closing chat and resetting conversation
+  const handleClose = () => {
+    setIsOpen(false);
+
+    // Clear conversation history from localStorage
+    localStorage.removeItem(STORAGE_KEY);
+
+    // Reset messages to initial welcome
+    setMessages([INITIAL_MESSAGE]);
+
+    console.log('🔄 [Chat UI] Conversation reset on close');
+  };
+
   // Handle input submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -644,7 +662,7 @@ export default function JoseaAI() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden"
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
             />
 
             {/* Chat window */}
@@ -716,7 +734,7 @@ export default function JoseaAI() {
 
                 {/* Close button */}
                 <motion.button
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleClose}
                   className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all border border-white/10"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}

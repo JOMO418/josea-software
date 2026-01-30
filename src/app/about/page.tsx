@@ -625,7 +625,7 @@ function OfficeInfoSection() {
               <span className="text-slate-500 font-normal">• Remote-first team</span>
             </p>
           </div>
-        </motion.div>
+        </motion.div> 
 
         <p className="mt-4 text-xs text-slate-500 max-w-md mx-auto">
           We work flexibly across Kenya and East Africa, meeting clients where it makes sense.
